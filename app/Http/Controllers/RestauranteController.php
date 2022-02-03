@@ -99,23 +99,27 @@ class RestauranteController extends Controller
         
     }
 
-
     //Funciones propias
-    //Registro usuario
+    //Registro vista
     public function register(){
-
+        return view('register');
+    }
+    public function registerPost(Request $request){
+        
     }
     //login vista
     public function login(){
         return view('login');
     }
     //funcion login
-    public function loginPost(){
+    public function loginPost(Request $request){
 
     }
     //logout
-    public function logout(){
-
+    public function logout(Request $request){
+        //Eliminar todas las variables de sesion
+        $request->session()->flush();
+        return redirect('/');
     }
     //Funcion para agregar foto
     public function addImage($idRes){
