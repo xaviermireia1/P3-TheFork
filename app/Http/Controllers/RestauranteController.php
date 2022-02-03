@@ -105,7 +105,7 @@ class RestauranteController extends Controller
         return view('register');
     }
     public function registerPost(Request $request){
-        
+        return $request;
     }
     //login vista
     public function login(){
