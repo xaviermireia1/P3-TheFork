@@ -105,8 +105,12 @@ class RestauranteController extends Controller
     public function register(){
 
     }
-    //login
+    //login vista
     public function login(){
+        return view('login');
+    }
+    //funcion login
+    public function loginPost(){
 
     }
     //logout
@@ -123,6 +127,6 @@ class RestauranteController extends Controller
     }
     //Funcion para cambiar foto
     public function changeImage($idImg){
-        
+
     }
 }
