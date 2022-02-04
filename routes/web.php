@@ -13,9 +13,19 @@ use App\Http\Controllers\RestauranteController;
 |
 */
 
+//------------------------------Rutas Adm----------------------------------
+//Route::get('',[RestauranteController::class,'register']);
+//
+Route::get('home-adm',[RestauranteController::class,'indexAdm']);
+//----------------------------Rutas Clientes-------------------------------
+//Login
+Route::get('login',[RestauranteController::class,'login']);
+//Proceso de login
+Route::post('login-proc',[RestauranteController::class,'loginProc']);
+//Al obtener un login exitoso se nos redigirá a
+Route::get('home',[RestauranteController::class,'index']);
 //Registro de usuario
 Route::get('register',[RestauranteController::class,'register']);
+//Proceso registro
 Route::post('registerPost',[RestauranteController::class,'registerPost']);
 
-//Redirigir a home
-Route::get('home',[RestauranteController::class,'index']);
