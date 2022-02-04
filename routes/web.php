@@ -13,7 +13,16 @@ use App\Http\Controllers\RestauranteController;
 |
 */
 
+<<<<<<< HEAD
 Route::get('register',[RestauranteController::class,'register']);
 Route::post('/registerPost',[RestauranteController::class,'registerPost']);
 Route::get('login',[RestauranteController::class,'login']);
 Route::get('ayuda',[RestauranteController::class,'ayuda']);
+=======
+//Registro de usuario
+Route::get('register',[RestauranteController::class,'register']);
+Route::post('registerPost',[RestauranteController::class,'registerPost']);
+
+//Redirigir a home
+Route::get('home',[RestauranteController::class,'index']);
+>>>>>>> main

@@ -18,7 +18,11 @@ class RestauranteController extends Controller
     //Pagina principal
     public function index()
     {
+<<<<<<< HEAD
         return view('login');
+=======
+        return view('home');
+>>>>>>> main
     }
 
     /**
@@ -110,7 +114,23 @@ class RestauranteController extends Controller
         return view('register');
     }
     public function registerPost(Request $request){
-        return $request;
+        //Comprobamos si existe el email que ha introducido en la base de datos
+        $existmail=DB::select('select email from tbl_usuario where email=?',[$request->input('email')]);
+        //Si el resultado es menor a uno hacemos el registro
+        if (count($existmail) < 1) {
+            try {
+                //Encriptamos la contraseña a sha1
+                $password = sha1($request->input('password'));
+                DB::insert('insert into tbl_usuario (nombre, apellidos,email,pass,rol) values (?,?,?,?,"cliente")',[$request->input('nombre'),$request->input('apellidos'),$request->input('email'),$password]);
+                //Le metemos la variable de session con el nombre email
+                $request->session()->put('email',$request->email);
+                return redirect("home");
+            } catch (\Throwable $th) {
+                return $th;
+            }
+        }else{
+            return redirect("register");
+        }
     }
     //login vista
     public function login(){
