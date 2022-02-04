@@ -13,5 +13,9 @@ use App\Http\Controllers\RestauranteController;
 |
 */
 
-Route::get('',[RestauranteController::class,'register']);
-Route::post('/registerPost',[RestauranteController::class,'registerPost']);
+//Registro de usuario
+Route::get('register',[RestauranteController::class,'register']);
+Route::post('registerPost',[RestauranteController::class,'registerPost']);
+
+//Redirigir a home
+Route::get('home',[RestauranteController::class,'index']);
