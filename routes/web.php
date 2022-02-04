@@ -19,7 +19,7 @@ use App\Http\Controllers\RestauranteController;
 Route::get('home-adm',[RestauranteController::class,'indexAdm']);
 //----------------------------Rutas Clientes-------------------------------
 //Login
-Route::get('login',[RestauranteController::class,'login']);
+Route::get('',[RestauranteController::class,'login']);
 //Proceso de login
 Route::post('login-proc',[RestauranteController::class,'loginProc']);
 //Al obtener un login exitoso se nos redigirá a

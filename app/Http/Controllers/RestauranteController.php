@@ -15,47 +15,6 @@ class RestauranteController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    //Función con redirección a la vista de Login
-    public function login(){
-        try {
-            return view("login");
-        } catch (\Throwable $e) {
-            return $e->getMessage();
-        }
-    }
-
-    //Proceso de verificación de usuarios + redirección a la ruta correspondiente
-    public function loginProc(Request $request){
-        try {
-            //recogemos los datos, teniendo exepciones, como el token que utiliza laravel y el método
-            $datas = $request->except('_token', '_method');
-            //Hacemos la consulta con la DB, la cual contará nuestros resultados 1-0
-            $queryId = DB::table('tbl_usuario')->where('email', '=', $datas['email'])->where('pass', '=', sha1($datas['pass']))->count();
-            //Obtenemos todos los resultados de la DB, posteiriormente cogeremos un campo en concreto, obtenemos el primer resultado
-            $userId = DB::table('tbl_usuario')->where('email', '=', $datas['email'])->where('pass', '=', sha1($datas['pass']))->first();
-            //De los datos obtenidos consultamos el campo en concreto
-            $rolUser = $userId->rol;
-            //En caso de que la query $queryId devuelva como resultado 1(Coincidenci de datos haz...)
-            if ($queryId == 1){
-                //Establecemos sesión, solcitando el dato a Request
-                $request->session()->put('email', $request->email);
-                if($rolUser == 'Admin'){
-                    return redirect("home-adm");
-                }else{
-                    return redirect("home");
-                }
-                /* return redirect('home'); */
-            }else{
-                //No establecemos sesión y lo devolvemos a login
-                return redirect('login');
-            }
-        } catch (\Throwable $e) {
-            //En caso de error impredecible obtendremos el mismo error mediante $e
-            //return $e->getMessage();
-            return redirect('login');
-        }
-    }
-
     //Pagina principal
     public function index()
     {
@@ -168,9 +127,45 @@ class RestauranteController extends Controller
             return redirect("register");
         }
     }
-    //funcion login
-    public function loginPost(Request $request){
+    //Función con redirección a la vista de Login
+    public function login(){
+        try {
+            return view("login");
+        } catch (\Throwable $e) {
+            return $e->getMessage();
+        }
+    }
 
+    //Proceso de verificación de usuarios + redirección a la ruta correspondiente
+    public function loginProc(Request $request){
+        try {
+            //recogemos los datos, teniendo exepciones, como el token que utiliza laravel y el método
+            $datas = $request->except('_token', '_method');
+            //Hacemos la consulta con la DB, la cual contará nuestros resultados 1-0
+            $queryId = DB::table('tbl_usuario')->where('email', '=', $datas['email'])->where('pass', '=', sha1($datas['pass']))->count();
+            //Obtenemos todos los resultados de la DB, posteiriormente cogeremos un campo en concreto, obtenemos el primer resultado
+            $userId = DB::table('tbl_usuario')->where('email', '=', $datas['email'])->where('pass', '=', sha1($datas['pass']))->first();
+            //De los datos obtenidos consultamos el campo en concreto
+            $rolUser = $userId->rol;
+            //En caso de que la query $queryId devuelva como resultado 1(Coincidenci de datos haz...)
+            if ($queryId == 1){
+                //Establecemos sesión, solcitando el dato a Request
+                $request->session()->put('email', $request->email);
+                if($rolUser == 'Admin'){
+                    return redirect("home-adm");
+                }else{
+                    return redirect("home");
+                }
+                /* return redirect('home'); */
+            }else{
+                //No establecemos sesión y lo devolvemos a login
+                return redirect('/');
+            }
+        } catch (\Throwable $e) {
+            //En caso de error impredecible obtendremos el mismo error mediante $e
+            //return $e->getMessage();
+            return redirect('/');
+        }
     }
     //logout
     public function logout(Request $request){
