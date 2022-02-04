@@ -18,7 +18,7 @@ class RestauranteController extends Controller
     //Pagina principal
     public function index()
     {
-        //
+        return view('login');
     }
 
     /**
@@ -99,7 +99,12 @@ class RestauranteController extends Controller
         
     }
 
-    //Funciones propias
+    //Funciones propias -----------------------------
+
+    //Ayuda vista
+    public function ayuda(){
+        return view('ayuda');
+    }
     //Registro vista
     public function register(){
         return view('register');

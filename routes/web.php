@@ -13,5 +13,7 @@ use App\Http\Controllers\RestauranteController;
 |
 */
 
-Route::get('',[RestauranteController::class,'register']);
+Route::get('register',[RestauranteController::class,'register']);
 Route::post('/registerPost',[RestauranteController::class,'registerPost']);
+Route::get('login',[RestauranteController::class,'login']);
+Route::get('ayuda',[RestauranteController::class,'ayuda']);
