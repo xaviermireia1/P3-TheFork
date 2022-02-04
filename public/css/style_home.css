@@ -1,0 +1,60 @@
+* {
+    box-sizing: border-box;
+    /* font */
+    font-family: 'Raleway', sans-serif;
+}
+
+body {
+    margin: 0;
+}
+
+
+/* Clear floats after the columns */
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+
+/* CLASES DE COLUMNAS FOOTER */
+
+.one-column-footer {
+    padding: 10px;
+    text-align: left;
+    color: white;
+}
+
+.four-column-footer {
+    float: left;
+    padding: 0px 5% 30px 5%;
+    width: 25%;
+    color: white;
+}
+
+#footer1 {
+    background-color: #3c4048;
+}
+
+#footer2 {
+    background-color: #000000;
+}
+
+
+/* RESPONSIVE */
+
+@media screen and (max-width:700px) {
+    .one-column-footer h1 {
+        font-size: 4vw;
+    }
+    .four-column-footer {
+        width: 50%;
+    }
+    .four-column-footer h3 {
+        font-size: 3.5vw;
+    }
+    .four-column-footer p {
+        font-size: 3vw;
+    }
+}
