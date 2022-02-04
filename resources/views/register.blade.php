@@ -6,11 +6,15 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="../public/css/style.css">
     <title>Registro</title>
-    <script src="js/validar.js"></script>
+    <script src="js/validacionLogin.js"></script>
 </head>
 <body>
-    <form action="{{url('/registerPost')}}" method="post" onsubmit="validarRegister();">
+    <form action="{{url('registerPost')}}" method="post" onsubmit="validarRegister();">
         @csrf
+        <p>Nombre</p>
+        <input type="text" name="nombre" id="nombre" placeholder="Introduce tu nombre...">
+        <p>Apellidos</p>
+        <input type="text" name="apellidos" id="apellidos" placeholder="Introduce tu contraseña...">
         <p>Email</p>
         <input type="email" name="email" id="email" placeholder="Introduce email...">
         <p>Contraseña</p>
