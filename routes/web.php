@@ -15,7 +15,6 @@ use App\Http\Controllers\RestauranteController;
 
 //------------------------------Rutas Adm----------------------------------
 //Route::get('',[RestauranteController::class,'register']);
-Route::post('/registerPost',[RestauranteController::class,'registerPost']);
 //
 Route::get('home-adm',[RestauranteController::class,'indexAdm']);
 //----------------------------Rutas Clientes-------------------------------
@@ -25,5 +24,8 @@ Route::get('login',[RestauranteController::class,'login']);
 Route::post('login-proc',[RestauranteController::class,'loginProc']);
 //Al obtener un login exitoso se nos redigirá a
 Route::get('home',[RestauranteController::class,'index']);
-//Rediricción a home
-Route::post('login',[RestauranteController::class,'loginProc']);
+//Registro de usuario
+Route::get('register',[RestauranteController::class,'register']);
+//Proceso registro
+Route::post('registerPost',[RestauranteController::class,'registerPost']);
+
