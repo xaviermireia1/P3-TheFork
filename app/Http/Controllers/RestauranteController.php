@@ -144,7 +144,12 @@ class RestauranteController extends Controller
         
     }
 
-    //Funciones propias
+    //Funciones propias -----------------------------
+
+    //Ayuda vista
+    public function ayuda(){
+        return view('ayuda');
+    }
     //Registro vista
     public function register(){
         return view('register');
