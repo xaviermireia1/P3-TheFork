@@ -25,7 +25,7 @@
                 <p><b> | </b></p>
             </div>
             <div class="one-column-s1">
-                <a href="{{ url('login')}}">
+                <a href="{{ url('/')}}">
                     <p><b >LOGIN</b></p>
                 </a>
             </div>
