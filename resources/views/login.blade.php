@@ -47,12 +47,12 @@
                     <br>
                     <p>Contraseña</p>
                     <input type="password" name="pass" id="pass" placeholder="Introduce contraseña...">
-                    <input type="submit" value="Entrar">
+                    <input type="submit" value="ENTRAR">
                 </form>
             </div>
         </div>
             <div>
-                <img src="img/logincomida.png" alt="comida">
+                <img src="img/logincomida.png" alt="comida" style="padding-top: 30px">
             </div>
         
     </div>

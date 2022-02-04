@@ -18,11 +18,7 @@ class RestauranteController extends Controller
     //Pagina principal
     public function index()
     {
-<<<<<<< HEAD
-        return view('login');
-=======
         return view('home');
->>>>>>> main
     }
 
     /**
