@@ -15,7 +15,7 @@ use App\Http\Controllers\RestauranteController;
 
 //------------------------------Rutas Adm----------------------------------
 //Route::get('',[RestauranteController::class,'register']);
-//
+//Si el login ha sido exitoso y el rol del usuario es administrador
 Route::get('home-adm',[RestauranteController::class,'indexAdm']);
 //----------------------------Rutas Clientes-------------------------------
 
@@ -24,7 +24,7 @@ Route::get('',[RestauranteController::class,'login']);
 //Proceso de login
 Route::post('login-proc',[RestauranteController::class,'loginProc']);
 
-//Al obtener un login exitoso se nos redigirá a
+//Si el login ha sido exitoso con el rol del usuario es cliente
 Route::get('home',[RestauranteController::class,'index']);
 
 //Registro de usuario
@@ -33,5 +33,5 @@ Route::get('register',[RestauranteController::class,'register']);
 //Proceso registro
 Route::post('registerPost',[RestauranteController::class,'registerPost']);
 
-//Redirigir a ayuda
+//Redirigir a pagina de ayuda
 Route::get('ayuda',[RestauranteController::class,'ayuda']);

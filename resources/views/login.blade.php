@@ -37,7 +37,7 @@
     <div class="row" id="section3">
         <div class="two-column-s3">
             <div>
-                <form action="{{url('/loginPost')}}" method="post" onsubmit="validarLogin();">
+                <form action="{{url('/login-proc')}}" method="post" onsubmit="validarLogin();">
                     @csrf
                     <center>
                         <h1>Log-In</h1>
