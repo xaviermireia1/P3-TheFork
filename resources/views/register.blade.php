@@ -4,12 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <link rel="stylesheet" href="../public/css/style.css">
     <title>Registro</title>
     <script src="js/validacionLogin.js"></script>
 </head>
 <body>
-    <form action="{{url('registerPost')}}" method="post" onsubmit="validarRegister();">
+    <form action="{{url('registerPost')}}" method="post" onsubmit="return validarRegister();">
         @csrf
         <p>Nombre</p>
         <input type="text" name="nombre" id="nombre" placeholder="Introduce tu nombre...">

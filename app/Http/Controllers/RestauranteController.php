@@ -107,8 +107,8 @@ class RestauranteController extends Controller
     public function registerPost(Request $request){
         //Comprobamos si existe el email que ha introducido en la base de datos
         $existmail=DB::select('select email from tbl_usuario where email=?',[$request->input('email')]);
-        //Si el resultado es menor o igual a uno hacemos el registro
-        if (count($existmail) <= 1) {
+        //Si el resultado es menor a uno hacemos el registro
+        if (count($existmail) < 1) {
             try {
                 //Encriptamos la contraseña a sha1
                 $password = sha1($request->input('password'));
@@ -119,6 +119,8 @@ class RestauranteController extends Controller
             } catch (\Throwable $th) {
                 return $th;
             }
+        }else{
+            return redirect("register");
         }
     }
     //login vista
