@@ -37,7 +37,7 @@ function filtro() {
     //Llamamos al Ajax de la funcion de la llamadaAjax
     var ajax = llamadaAjax();
     //Abrimos el ajax mediante la ruta que está en el archivo web, el metodo como pasan los datos que será post y si es asincrono que le decimos que si
-    ajax.open("POST", "home-adm/show", true);
+    ajax.open("POST", "home/show", true);
     ajax.onreadystatechange = function() {
         if (ajax.readyState == 4 && ajax.status == 200) {
             //Recogemos la respuesta en una variable y parseamos elJSON
