@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Restaurante;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
 
 class RestauranteController extends Controller
@@ -82,6 +83,24 @@ class RestauranteController extends Controller
         } catch (\Throwable $e) {
             return $e->getMessage();
         }
+    }
+    //Función cuya finalidad es validar los datos e insertarlos en la DB, es el proceso de inserción
+    public function crearProc(Request $request){
+        //Proceso de validación por parte del server, la cual en este ejemplo pondremos el campo required, y el tamaño máximo que deberá tener
+       try {
+            $validated = $request->validate([
+                'nombre' => 'required|string|max:150',
+                'descripcion' => 'required|string|max:2000',
+                'direccion' => 'required|string|max:100',
+                'correo_responsable' => 'required|string|max:70',
+                'correo:restaurante' => 'required|string|max:70',
+                'tipo_cocina' => 'required|string|max:150',
+                'imagen_general' => 'required|mimes:jpg,png,jpeg,webp,svg'
+            ]);
+       } catch (\Throwable $th) {
+           throw $th;
+       }
+       //Como se usa validated en la query, como puedo insertar en una table diefente
     }
 
     /**

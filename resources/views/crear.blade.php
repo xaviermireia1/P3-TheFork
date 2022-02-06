@@ -17,7 +17,8 @@
 <center>
     <h1>Nuevo restaurante</h1>
 </center>
-    <form action="" method="post">
+    <form action="{{url("crear-proc")}}" method="post">
+        {{--Token de seguridad--}}
         @csrf
         <span>Nombre:</span>
             <input type="text" name="nombre"></br>
@@ -34,10 +35,11 @@
             <option value=""></option>
             <!--Extracción valores desde la DB, la variable se envía desde el método-->
             @foreach ($dbExtraction as $result)
+                {{--Recordemos pasarle el resultado que queremos de la variable enviada desde el método--}}
                 <option value="{{$result->tipo_cocina}}">{{$result->tipo_cocina}}</option>
             @endforeach 
         </select></br>
-        <input type="file"></br>
+        <input type="file" name="imagen_general"></br>
         <input type="submit" value="Crear restaurante">
     </form>
     

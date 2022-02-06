@@ -17,7 +17,10 @@ use App\Http\Controllers\RestauranteController;
 //Route::get('',[RestauranteController::class,'register']);
 //
 Route::get('home-adm',[RestauranteController::class,'indexAdm']);
+//Redirección a la vista del formulario
 Route::get('crear',[RestauranteController::class,'create']);
+//Proceso de creación de nuevos items(Restaurantes) en la DB
+Route::post('crear-proc',[RestauranteController::class,'createProc']);
 //----------------------------Rutas Clientes-------------------------------
 //Login
 Route::get('login',[RestauranteController::class,'login']);
