@@ -19,7 +19,9 @@
 </head>
 
 <body>
-
+<form action="{{url("crear")}}" method="get">
+    <input type="submit" value="crear">
+</form>
     <footer>
         <div class="row" id="footer1">
             <div class="one-column-footer">

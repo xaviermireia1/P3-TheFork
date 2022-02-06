@@ -75,7 +75,13 @@ class RestauranteController extends Controller
     //Vista de crear restaurante
     public function create()
     {
-        //
+        try {
+            //Obtenemos los resultados de una tabla en concreto, para poder usar esos valores en un select
+            $dbExtraction = DB::table('tbl_tipo_cocina')->get();
+            return view("crear", compact("dbExtraction"));
+        } catch (\Throwable $e) {
+            return $e->getMessage();
+        }
     }
 
     /**

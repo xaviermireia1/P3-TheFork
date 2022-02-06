@@ -17,6 +17,7 @@ use App\Http\Controllers\RestauranteController;
 //Route::get('',[RestauranteController::class,'register']);
 //
 Route::get('home-adm',[RestauranteController::class,'indexAdm']);
+Route::get('crear',[RestauranteController::class,'create']);
 //----------------------------Rutas Clientes-------------------------------
 //Login
 Route::get('login',[RestauranteController::class,'login']);
