@@ -17,6 +17,9 @@ use App\Http\Controllers\RestauranteController;
 //Route::get('',[RestauranteController::class,'register']);
 //Si el login ha sido exitoso y el rol del usuario es administrador
 Route::get('home-adm',[RestauranteController::class,'indexAdm']);
+
+//Filtro home admin en AJAX
+Route::post('home-adm/show',[RestauranteController::class,'showAdm']);
 //----------------------------Rutas Clientes-------------------------------
 
 //Login
@@ -26,6 +29,9 @@ Route::post('login-proc',[RestauranteController::class,'loginProc']);
 
 //Si el login ha sido exitoso con el rol del usuario es cliente
 Route::get('home',[RestauranteController::class,'index']);
+
+//Filtro home en AJAX
+Route::post('home/show',[RestauranteController::class,'show']);
 
 //Registro de usuario
 Route::get('register',[RestauranteController::class,'register']);

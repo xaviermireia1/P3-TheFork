@@ -11,16 +11,39 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" id="token" content="{{ csrf_token() }}">
     <title>FOOTER P3</title>
     <link rel="stylesheet" href="css/style_home_admin.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100&display=swap" rel="stylesheet">
+    <script src="js/ajaxAdmin.js"></script>
     <link rel="shortcut icon" href="../public/img/icono.png">
 </head>
 
 <body>
-
+  <!--Formulario filtro AJAX por nombre-->
+  <form method="post" onsubmit="return false;">
+    <input type="text" name="nombre" id="nombre" onkeyup="filtro();return false;">
+  </form>
+  <table id="restaurants">
+    <tr>
+        <th>Nombre</th>
+        <th>Direccion</th>
+        <th>Imagen general</th>
+    </tr>
+    @if($restaurantlist != null)
+        @foreach ($restaurantlist as $restaurant)
+        <tr>
+            <td>{{$restaurant->nombre}}</td>
+            <td>{{$restaurant->direccion}}</td>
+            <td><img src="{{asset('storage').'/'.$restaurant->imagen_general}}"></td>
+        </tr>
+        @endforeach
+    @else
+    <h1>No se han encontrado elementos</h1>
+    @endif
+</table>
     <footer>
         <div class="row" id="footer1">
             <div class="one-column-footer">
