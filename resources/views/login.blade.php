@@ -15,15 +15,6 @@
     <script src="js/validar.js"></script>
 </head>
 <body>
-    <h1>Login view</h1>
-    <form action="{{url("login-proc")}}" method="POST" onsubmit="return loginValidate();">
-        @csrf
-        <span>email</span>
-        <input type="email" name="email" id="email">
-        <span>Password</span>
-        <input type="password" name="pass" id="pass">
-        <input type="submit" name="" id="" value="login">
-    </form>
     <header>
         <div class="row" id="section1">
             <div class="one-column-s1">
@@ -48,7 +39,7 @@
     <div class="row" id="section3">
         <div class="two-column-s3">
             <div>
-                <form action="{{url('/login-proc')}}" method="post" onsubmit="validarLogin();">
+                <form action="{{url("login-proc")}}" method="post" onsubmit="return loginValidate();">
                     @csrf
                     <center>
                         <h1>Log-In</h1>
