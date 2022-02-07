@@ -17,13 +17,23 @@ use App\Http\Controllers\RestauranteController;
 //Route::get('',[RestauranteController::class,'register']);
 //Si el login ha sido exitoso y el rol del usuario es administrador
 Route::get('home-adm',[RestauranteController::class,'indexAdm']);
+
 //Redirección a la vista del formulario
 Route::get('crear',[RestauranteController::class,'create']);
+
 //Proceso de creación de nuevos items(Restaurantes) en la DB
 Route::post('crear-proc',[RestauranteController::class,'crearProc']);
 
 //Filtro home admin en AJAX
 Route::post('home-adm/show',[RestauranteController::class,'showAdm']);
+
+//Proceso eliminar restaurante
+Route::get('home-adm/delete/{id}',[RestauranteController::class,'destroy']);
+//Ruta vista update
+Route::get('home-adm/update/{id}',[RestauranteController::class,'edit']);
+//Proceso update
+Route::put('home-adm/update-proc/{id}',[RestauranteController::class,'update']);
+
 //----------------------------Rutas Clientes-------------------------------
 
 //Login
