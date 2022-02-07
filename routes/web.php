@@ -29,10 +29,12 @@ Route::post('home-adm/show',[RestauranteController::class,'showAdm']);
 
 //Proceso eliminar restaurante
 Route::get('home-adm/delete/{id}',[RestauranteController::class,'destroy']);
+
 //Ruta vista update
 Route::get('home-adm/update/{id}',[RestauranteController::class,'edit']);
+
 //Proceso update
-Route::put('home-adm/update-proc/{id}',[RestauranteController::class,'update']);
+Route::put('home-adm/update-proc',[RestauranteController::class,'update']);
 
 //----------------------------Rutas Clientes-------------------------------
 

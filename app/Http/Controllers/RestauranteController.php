@@ -185,7 +185,8 @@ class RestauranteController extends Controller
             $restaurant = $restaurantContent[0];
             $tipoCocina = DB::select("SELECT * FROM tbl_tipo_cocina");
             $idPrecioMed = DB::select("SELECT 'precio_medio' FROM tbl_carta where id = $id");
-            return view("editar",compact("restaurant","tipoCocina", "idPrecioMed"));
+            $precioMed = $idPrecioMed[0];
+            return view("editar",compact("restaurant","tipoCocina", "precioMed"));
         } catch (\Throwable $e) {   
             return redirect("home-adm");
         }
@@ -202,18 +203,23 @@ class RestauranteController extends Controller
      //Sentencia de actualizar datos
     public function update(Request $request)
     {
+        //Quitamos el token y el método
+        $datas = $request->except('_token', '_method'); 
         try {
             DB::beginTransaction();
-            //Query de actualización de datos
+            //Query de actualización de datos en tbl_restaurante
                 DB::update('update tbl_restaurante set nombre=?, descripcion=?, direccion=?, correo_responsable=?, correo_restaurante=?, 
-                id_tipo_cocina=?, id_imagen_fk=?  where id=?',
+                id_tipo_cocina=? where id=?',
                 [$request->input('nombre'),$request->input('descripcion'),$request->input('direccion'),$request->input('correo_responsable'), $request->input('correo_restaurante'), 
-                $request->input('id_tipo_cocina'), $request->input('id_imagen_fk'), $request->id]);
+                $request->input('tipo_cocina'), $request->input('id')]);
+            //Query de actualización de datos en tbl_carta
+                DB::update('update tbl_carta set precio_medio=? where id_restaurante_fk = ?', [$request->input('precio_medio'), $request->input('id')]);
             DB::commit();
             //redirección a index
-            return redirect('/home');
-        } catch (\Throwable $th) {
-            //throw $th;
+            return redirect('home-adm');
+        } catch (\Throwable $e) {
+            DB::rollback();
+            return $e->getMessage();
         }
     }
 
@@ -224,35 +230,42 @@ class RestauranteController extends Controller
      * @return \Illuminate\Http\Response
      */
     
-     //Eliminar datos del restaurante
+     //Eliminar datos del restaurante, id de restaurante
     public function destroy($id)
     {
+        //Cogemos el id de la imagen mediante tabla de restaurante
         $idIMG=DB::table('tbl_restaurante')->select('id_imagen_fk')->where('id','=',$id)->first();
+        //Cogemos todos los registros de la tabla imagen 
         $fotos = DB::table('tbl_imagen')->select('*')->where('id','=',$idIMG->id_imagen_fk)->first();
+        //Cogemos todos los registros de la tabla valaración
         $valoracion=DB::table('tbl_valoracion')->select('*')->where('id_restaurante_fk','=',$id);        
         try {
             DB::beginTransaction();
-            DB::table('tbl_carta')->where('id_restaurante_fk','=',$id)->delete();
-            if ($fotos->imagen_general != null) {
-                Storage::delete('public/'.$fotos->imagen_general); 
-            }
-            if ($fotos->imagen1 != null) {
-                Storage::delete('public/'.$fotos->imagen1); 
-            }
-            if ($fotos->imagen2 != null) {
-                Storage::delete('public/'.$fotos->imagen2); 
-            }
-            if ($fotos->imagen3 != null) {
-                Storage::delete('public/'.$fotos->imagen3); 
-            }
-            if ($fotos->imagen4 != null) {
-                Storage::delete('public/'.$fotos->imagen4); 
-            }
-            if ($valoracion != null) {
-                DB::table('tbl_valoracion')->where('id_restaurante_fk','=',$id)->delete();
-            }
-            DB::table('tbl_restaurante')->where('id','=',$id)->delete();
-            DB::table('tbl_imagen')->where('id','=',$fotos->id)->delete();
+                //Primer paso, eliminamos carta que contiene el id del restaurante
+                DB::table('tbl_carta')->where('id_restaurante_fk','=',$id)->delete();
+                //Comprobamos que las imágenes no sean nulas, si no lo son eliminamos las imagenes del srv(storage/uploads)
+                if ($fotos->imagen_general != null) {
+                    Storage::delete('public/'.$fotos->imagen_general); 
+                }
+                //Segundo paso, eliminamos carta 
+                if ($fotos->imagen1 != null) {
+                    Storage::delete('public/'.$fotos->imagen1); 
+                }
+                if ($fotos->imagen2 != null) {
+                    Storage::delete('public/'.$fotos->imagen2); 
+                }
+                if ($fotos->imagen3 != null) {
+                    Storage::delete('public/'.$fotos->imagen3); 
+                }
+                if ($fotos->imagen4 != null) {
+                    Storage::delete('public/'.$fotos->imagen4); 
+                }
+                //Si existe alguna valoración del restaurante, eliminamos todos los registros que contenian restaurante
+                if ($valoracion != null) {
+                    DB::table('tbl_valoracion')->where('id_restaurante_fk','=',$id)->delete();
+                }
+                DB::table('tbl_restaurante')->where('id','=',$id)->delete();
+                DB::table('tbl_imagen')->where('id','=',$fotos->id)->delete();
             DB::commit();
             return redirect('home-adm');
         } catch (\Exception $e) {
