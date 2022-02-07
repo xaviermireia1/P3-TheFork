@@ -41,6 +41,8 @@
             <td>{{$restaurant->nombre}}</td>
             <td>{{$restaurant->direccion}}</td>
             <td><img src="{{asset('storage').'/'.$restaurant->imagen_general}}"></td>
+            <td><button onclick="window.location.href='{{url('home-adm/update/'.$restaurant->id)}}'">Actualizar Restaurante</button></td>
+            <td><button onclick="window.location.href='{{url('home-adm/delete/'.$restaurant->id)}}'">Eliminar Restaurante</button></td>
         </tr>
         @endforeach
     @else

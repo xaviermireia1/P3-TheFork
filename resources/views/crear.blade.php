@@ -17,7 +17,8 @@
 <center>
     <h1>Nuevo restaurante</h1>
 </center>
-    <form action="{{url("crear-proc")}}" method="post">
+    <!--Es muy importante añadir el enctype debido a que en caso de que no esté obtendremos muchos errores-->
+    <form action="{{url("crear-proc")}}" method="post" enctype="multipart/form-data">
         {{--Token de seguridad--}}
         @csrf
         <span>Nombre:</span>
@@ -36,10 +37,18 @@
             <!--Extracción valores desde la DB, la variable se envía desde el método-->
             @foreach ($dbExtraction as $result)
                 {{--Recordemos pasarle el resultado que queremos de la variable enviada desde el método--}}
-                <option value="{{$result->tipo_cocina}}">{{$result->tipo_cocina}}</option>
+                {{--Como value pasamos el id del resultado que mostramos--}}
+                <option value="{{$result->id}}">{{$result->tipo_cocina}}</option>
             @endforeach 
         </select></br>
-        <input type="file" name="imagen_general"></br>
+        <span>Precio medio</span>
+            <input type="number" name="precio_medio"></br>
+        <span>Imagen</span>
+            <input type="file" name="imagen_general"></br>
+        @error('imagen_general')
+        <br>
+        {{$message}}
+        @enderror
         <input type="submit" value="Crear restaurante">
     </form>
     
