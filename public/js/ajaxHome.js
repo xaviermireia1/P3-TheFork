@@ -24,6 +24,8 @@ function filtro() {
     var nombre = document.getElementById('nombre').value;
     var tipo_cocina = document.getElementById('tipo_cocina').value;
     var likes = document.getElementById('likes').value;
+    var precio_medio = document.getElementById('precio_medio').value;
+    console.log(precio_medio);
     //Generamos un formdata que es como mandar datos de formulario de ahí form (formulario), data(datos)
     var formData = new FormData();
     //En el formulario le especificamos el token
@@ -34,6 +36,7 @@ function filtro() {
     formData.append('nombre', nombre);
     formData.append('tipo_cocina', tipo_cocina);
     formData.append('likes', likes);
+    formData.append('precio_medio', precio_medio);
     //Llamamos al Ajax de la funcion de la llamadaAjax
     var ajax = llamadaAjax();
     //Abrimos el ajax mediante la ruta que está en el archivo web, el metodo como pasan los datos que será post y si es asincrono que le decimos que si
@@ -54,6 +57,7 @@ function filtro() {
                 recarga += '<th>Tipo_cocina</th>';
                 recarga += '<th>Imagen general</th>';
                 recarga += '<th>Cantidad likes</th>';
+                recarga += '<th>Precio medio</th>';
                 recarga += '</tr>';
                 for (let i = 0; i < respuesta.length; i++) {
                     recarga += '<tr>';
@@ -66,6 +70,7 @@ function filtro() {
                     } else {
                         recarga += '<td>' + respuesta[i].likes + '</td>';
                     }
+                    recarga += '<td>' + respuesta[i].precio_medio + '</td>';
                     recarga += '</tr>';
                 }
             }
