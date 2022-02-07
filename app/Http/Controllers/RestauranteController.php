@@ -16,56 +16,27 @@ class RestauranteController extends Controller
      * @return \Illuminate\Http\Response
      */
 
-    //Función con redirección a la vista de Login
-    public function login(){
-        try {
-            return view("login");
-        } catch (\Throwable $e) {
-            return $e->getMessage();
-        }
-    }
-
-    //Proceso de verificación de usuarios + redirección a la ruta correspondiente
-    public function loginProc(Request $request){
-        try {
-            //recogemos los datos, teniendo exepciones, como el token que utiliza laravel y el método
-            $datas = $request->except('_token', '_method');
-            //Hacemos la consulta con la DB, la cual contará nuestros resultados 1-0
-            $queryId = DB::table('tbl_usuario')->where('email', '=', $datas['email'])->where('pass', '=', sha1($datas['pass']))->count();
-            //Obtenemos todos los resultados de la DB, posteiriormente cogeremos un campo en concreto, obtenemos el primer resultado
-            $userId = DB::table('tbl_usuario')->where('email', '=', $datas['email'])->where('pass', '=', sha1($datas['pass']))->first();
-            //De los datos obtenidos consultamos el campo en concreto
-            $rolUser = $userId->rol;
-            //En caso de que la query $queryId devuelva como resultado 1(Coincidenci de datos haz...)
-            if ($queryId == 1){
-                //Establecemos sesión, solcitando el dato a Request
-                $request->session()->put('email', $request->email);
-                if($rolUser == 'Admin'){
-                    return redirect("home-adm");
-                }else{
-                    return redirect("home");
-                }
-                /* return redirect('home'); */
-            }else{
-                //No establecemos sesión y lo devolvemos a login
-                return redirect('login');
-            }
-        } catch (\Throwable $e) {
-            //En caso de error impredecible obtendremos el mismo error mediante $e
-            //return $e->getMessage();
-            return redirect('login');
-        }
-    }
-
     //Pagina principal
     public function index()
     {
-        return view("home");
+        $restaurantlist = DB::select("SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes
+        FROM tbl_restaurante rest 
+        INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
+        INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
+        LEFT JOIN tbl_valoracion val ON val.id_restaurante_fk=rest.id
+        GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general");
+        //Para el filtro por seleccion de tipo cocina
+        $cooktypes = DB::select("SELECT * FROM tbl_tipo_cocina");
+        return view("home",compact("restaurantlist","cooktypes"));
     }
 
     public function indexAdm()
     {
-        return view("home_admin");
+        $restaurantlist = DB::select("SELECT rest.nombre,rest.direccion,img.imagen_general
+        FROM tbl_restaurante rest 
+        INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
+        LEFT JOIN tbl_imagen img ON rest.id_imagen_fk=img.id");
+        return view("home_admin",compact("restaurantlist"));
     }
     /**
      * Show the form for creating a new resource.
@@ -124,9 +95,49 @@ class RestauranteController extends Controller
      */
 
     //Filtrar por AJAX
-    public function show(Restaurante $restaurante)
+    public function show(Request $request)
     {
-        //
+        //Si selecciono todos o no lo ha seleccionado mostramos de manera independiente
+        if ($request->input('likes')=="" || $request->input('likes')==null) {
+            $restaurantes=DB::select('SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes
+            FROM tbl_restaurante rest 
+            INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
+            INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
+            LEFT JOIN tbl_valoracion val ON val.id_restaurante_fk=rest.id
+            WHERE rest.nombre like ? AND cook.tipo_cocina like ?
+            GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general
+            ',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
+        //Si selecciono likes mostramos por más likes
+        }else if($request->input('likes')=="likes"){
+            $restaurantes=DB::select('SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes
+            FROM tbl_restaurante rest 
+            INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
+            INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
+            LEFT JOIN tbl_valoracion val ON val.id_restaurante_fk=rest.id
+            WHERE rest.nombre like ? AND cook.tipo_cocina like ?
+            GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general
+            ORDER BY val.valoracion DESC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']); 
+        //Si selecciono dislike mostramos por menos likes
+        }else{
+            $restaurantes=DB::select('SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes
+            FROM tbl_restaurante rest 
+            INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
+            INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
+            LEFT JOIN tbl_valoracion val ON val.id_restaurante_fk=rest.id
+            WHERE rest.nombre like ? AND cook.tipo_cocina like ?
+            GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general
+            ORDER BY val.valoracion ASC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']); 
+        }
+        return response()->json($restaurantes);
+    }
+    public function showAdm(Request $request){
+        $restaurantes=DB::select('SELECT rest.nombre,rest.direccion,img.imagen_general
+        FROM tbl_restaurante rest 
+        INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
+        LEFT JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
+        WHERE rest.nombre like ?
+        ',['%'.$request->input('nombre').'%']);
+            return response()->json($restaurantes);
     }
 
     /**
@@ -169,7 +180,12 @@ class RestauranteController extends Controller
         
     }
 
-    //Funciones propias
+    //Funciones propias -----------------------------
+
+    //Ayuda vista
+    public function ayuda(){
+        return view('ayuda');
+    }
     //Registro vista
     public function register(){
         return view('register');
@@ -193,9 +209,45 @@ class RestauranteController extends Controller
             return redirect("register");
         }
     }
-    //funcion login
-    public function loginPost(Request $request){
+    //Función con redirección a la vista de Login
+    public function login(){
+        try {
+            return view("login");
+        } catch (\Throwable $e) {
+            return $e->getMessage();
+        }
+    }
 
+    //Proceso de verificación de usuarios + redirección a la ruta correspondiente
+    public function loginProc(Request $request){
+        try {
+            //recogemos los datos, teniendo exepciones, como el token que utiliza laravel y el método
+            $datas = $request->except('_token', '_method');
+            //Hacemos la consulta con la DB, la cual contará nuestros resultados 1-0
+            $queryId = DB::table('tbl_usuario')->where('email', '=', $datas['email'])->where('pass', '=', sha1($datas['pass']))->count();
+            //Obtenemos todos los resultados de la DB, posteiriormente cogeremos un campo en concreto, obtenemos el primer resultado
+            $userId = DB::table('tbl_usuario')->where('email', '=', $datas['email'])->where('pass', '=', sha1($datas['pass']))->first();
+            //De los datos obtenidos consultamos el campo en concreto
+            $rolUser = $userId->rol;
+            //En caso de que la query $queryId devuelva como resultado 1(Coincidenci de datos haz...)
+            if ($queryId == 1){
+                //Establecemos sesión, solcitando el dato a Request
+                $request->session()->put('email', $request->email);
+                if($rolUser == 'Admin'){
+                    return redirect("home-adm");
+                }else{
+                    return redirect("home");
+                }
+                /* return redirect('home'); */
+            }else{
+                //No establecemos sesión y lo devolvemos a login
+                return redirect('/');
+            }
+        } catch (\Throwable $e) {
+            //En caso de error impredecible obtendremos el mismo error mediante $e
+            //return $e->getMessage();
+            return redirect('/');
+        }
     }
     //logout
     public function logout(Request $request){

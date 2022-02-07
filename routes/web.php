@@ -15,21 +15,33 @@ use App\Http\Controllers\RestauranteController;
 
 //------------------------------Rutas Adm----------------------------------
 //Route::get('',[RestauranteController::class,'register']);
-//
+//Si el login ha sido exitoso y el rol del usuario es administrador
 Route::get('home-adm',[RestauranteController::class,'indexAdm']);
 //Redirección a la vista del formulario
 Route::get('crear',[RestauranteController::class,'create']);
 //Proceso de creación de nuevos items(Restaurantes) en la DB
 Route::post('crear-proc',[RestauranteController::class,'createProc']);
+
+//Filtro home admin en AJAX
+Route::post('home-adm/show',[RestauranteController::class,'showAdm']);
 //----------------------------Rutas Clientes-------------------------------
+
 //Login
-Route::get('login',[RestauranteController::class,'login']);
+Route::get('',[RestauranteController::class,'login']);
 //Proceso de login
 Route::post('login-proc',[RestauranteController::class,'loginProc']);
-//Al obtener un login exitoso se nos redigirá a
+
+//Si el login ha sido exitoso con el rol del usuario es cliente
 Route::get('home',[RestauranteController::class,'index']);
+
+//Filtro home en AJAX
+Route::post('home/show',[RestauranteController::class,'show']);
+
 //Registro de usuario
 Route::get('register',[RestauranteController::class,'register']);
+
 //Proceso registro
 Route::post('registerPost',[RestauranteController::class,'registerPost']);
 
+//Redirigir a pagina de ayuda
+Route::get('ayuda',[RestauranteController::class,'ayuda']);
