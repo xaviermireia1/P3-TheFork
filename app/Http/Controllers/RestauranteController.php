@@ -265,6 +265,10 @@ class RestauranteController extends Controller
     public function ayuda(){
         return view('ayuda');
     }
+
+    public function ayuda2(){
+        return view('ayuda2');
+    }
     //Registro vista
     public function register(){
         return view('register');
@@ -346,4 +350,19 @@ class RestauranteController extends Controller
     public function changeImage($idImg){
 
     }
+
+        //Funcion parair a vista restaurante cliente
+        public function restaurantHome($id){
+            $restaurant=DB::select("SELECT rest.nombre,rest.direccion,rest.descripcion,cook.tipo_cocina,img.*,sum(tbl_valoracion.valoracion) as likes,tbl_valoracion.comentario,price.precio_medio,usuario.nombre
+            FROM tbl_restaurante rest 
+            INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
+            INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
+            LEFT JOIN tbl_valoracion ON tbl_valoracion.id_restaurante_fk=rest.id
+            INNER JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
+            INNER JOIN tbl_usuario usuario ON tbl_valoracion.id_usuario_fk=usuario.id
+            where rest.id = $id
+            group by rest.nombre, img.id, img.imagen_general, img.imagen1, img.imagen2, img.imagen3, img.imagen4, rest.direccion, rest.descripcion, cook.tipo_cocina, tbl_valoracion.comentario, price.precio_medio, usuario.nombre");
+            return view("restaurant",compact("restaurant"));
+        }
+
 }

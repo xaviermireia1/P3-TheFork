@@ -62,8 +62,8 @@ form p {
 
 form input[type="password"],
 form input[type="email"] {
-    width: 300px;
-    padding: 4px 10px;
+    width: 100%;
+    padding: 9px 10px;
     border: 1px solid #f6f6f6;
     border-radius: 3px;
     background-color: #f6f6f6;

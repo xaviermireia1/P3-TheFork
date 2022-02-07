@@ -37,6 +37,9 @@ Route::get('home',[RestauranteController::class,'index']);
 //Filtro home en AJAX
 Route::post('home/show',[RestauranteController::class,'show']);
 
+//Redireccion vista restaurante cliente
+Route::get('home/restaurant/{id}',[RestauranteController::class,'restaurantHome']);
+
 //Registro de usuario
 Route::get('register',[RestauranteController::class,'register']);
 
@@ -45,3 +48,7 @@ Route::post('registerPost',[RestauranteController::class,'registerPost']);
 
 //Redirigir a pagina de ayuda
 Route::get('ayuda',[RestauranteController::class,'ayuda']);
+Route::get('ayuda2',[RestauranteController::class,'ayuda2']);
+
+//Proceso logout
+Route::get('logout',[RestauranteController::class,'logout']);
