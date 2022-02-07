@@ -19,12 +19,13 @@ class RestauranteController extends Controller
     //Pagina principal
     public function index()
     {
-        $restaurantlist = DB::select("SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes
+        $restaurantlist = DB::select("SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes,price.precio_medio
         FROM tbl_restaurante rest 
         INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
         INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
         LEFT JOIN tbl_valoracion val ON val.id_restaurante_fk=rest.id
-        GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general");
+        INNER JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
+        GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,price.precio_medio");
         //Para el filtro por seleccion de tipo cocina
         $cooktypes = DB::select("SELECT * FROM tbl_tipo_cocina");
         return view("home",compact("restaurantlist","cooktypes"));
@@ -99,34 +100,112 @@ class RestauranteController extends Controller
     {
         //Si selecciono todos o no lo ha seleccionado mostramos de manera independiente
         if ($request->input('likes')=="" || $request->input('likes')==null) {
-            $restaurantes=DB::select('SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes
-            FROM tbl_restaurante rest 
-            INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
-            INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
-            LEFT JOIN tbl_valoracion val ON val.id_restaurante_fk=rest.id
-            WHERE rest.nombre like ? AND cook.tipo_cocina like ?
-            GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general
-            ',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
+            if ($request->input('precio_medio')=="" || $request->input('precio_medio')==null) {
+                //Si no pone precio se muestra tal cual
+                $restaurantes=DB::select('SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes,price.precio_medio 
+                FROM tbl_restaurante rest 
+                INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
+                INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
+                LEFT JOIN tbl_valoracion val ON val.id_restaurante_fk=rest.id
+                INNER JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
+                WHERE rest.nombre like ? AND cook.tipo_cocina like ?
+                GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,val.valoracion,price.precio_medio
+                ',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
+                //Si el precio es caro
+            }elseif ($request->input('precio_medio')=="caro") {
+                $restaurantes=DB::select('SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes,price.precio_medio 
+                FROM tbl_restaurante rest 
+                INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
+                INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
+                LEFT JOIN tbl_valoracion val ON val.id_restaurante_fk=rest.id
+                INNER JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
+                WHERE rest.nombre like ? AND cook.tipo_cocina like ?
+                GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,val.valoracion,price.precio_medio
+                ORDER BY price.precio_medio DESC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
+                //Si el precio es barato
+            }else{
+                $restaurantes=DB::select('SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes,price.precio_medio 
+                FROM tbl_restaurante rest 
+                INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
+                INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
+                LEFT JOIN tbl_valoracion val ON val.id_restaurante_fk=rest.id
+                INNER JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
+                WHERE rest.nombre like ? AND cook.tipo_cocina like ?
+                GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,val.valoracion,price.precio_medio
+                ORDER BY price.precio_medio ASC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
+            }
         //Si selecciono likes mostramos por más likes
         }else if($request->input('likes')=="likes"){
-            $restaurantes=DB::select('SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes
-            FROM tbl_restaurante rest 
-            INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
-            INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
-            LEFT JOIN tbl_valoracion val ON val.id_restaurante_fk=rest.id
-            WHERE rest.nombre like ? AND cook.tipo_cocina like ?
-            GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general
-            ORDER BY val.valoracion DESC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']); 
+            if ($request->input('precio_medio')=="" || $request->input('precio_medio')==null) {
+                //Si no pone precio se muestra tal cual
+                $restaurantes=DB::select('SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes,price.precio_medio 
+                FROM tbl_restaurante rest 
+                INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
+                INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
+                LEFT JOIN tbl_valoracion val ON val.id_restaurante_fk=rest.id
+                INNER JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
+                WHERE rest.nombre like ? AND cook.tipo_cocina like ?
+                GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,val.valoracion,price.precio_medio
+                ORDER BY val.valoracion DESC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
+                //Si el precio es caro
+            }elseif ($request->input('precio_medio')=="caro") {
+                $restaurantes=DB::select('SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes,price.precio_medio 
+                FROM tbl_restaurante rest 
+                INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
+                INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
+                LEFT JOIN tbl_valoracion val ON val.id_restaurante_fk=rest.id
+                INNER JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
+                WHERE rest.nombre like ? AND cook.tipo_cocina like ?
+                GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,val.valoracion,price.precio_medio
+                ORDER BY val.valoracion DESC,price.precio_medio DESC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
+                //Si el precio es barato
+            }else{
+                $restaurantes=DB::select('SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes,price.precio_medio 
+                FROM tbl_restaurante rest 
+                INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
+                INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
+                LEFT JOIN tbl_valoracion val ON val.id_restaurante_fk=rest.id
+                INNER JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
+                WHERE rest.nombre like ? AND cook.tipo_cocina like ?
+                GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,val.valoracion,price.precio_medio
+                ORDER BY val.valoracion DESC,price.precio_medio ASC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
+            }
         //Si selecciono dislike mostramos por menos likes
         }else{
-            $restaurantes=DB::select('SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes
-            FROM tbl_restaurante rest 
-            INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
-            INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
-            LEFT JOIN tbl_valoracion val ON val.id_restaurante_fk=rest.id
-            WHERE rest.nombre like ? AND cook.tipo_cocina like ?
-            GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general
-            ORDER BY val.valoracion ASC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']); 
+            if ($request->input('precio_medio')=="" || $request->input('precio_medio')==null) {
+                //Si no pone precio se muestra tal cual
+                $restaurantes=DB::select('SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes,price.precio_medio 
+                FROM tbl_restaurante rest 
+                INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
+                INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
+                LEFT JOIN tbl_valoracion val ON val.id_restaurante_fk=rest.id
+                INNER JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
+                WHERE rest.nombre like ? AND cook.tipo_cocina like ?
+                GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,val.valoracion,price.precio_medio
+                ORDER BY val.valoracion ASC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
+                //Si el precio es caro
+            }elseif ($request->input('precio_medio')=="caro") {
+                $restaurantes=DB::select('SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes,price.precio_medio 
+                FROM tbl_restaurante rest 
+                INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
+                INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
+                LEFT JOIN tbl_valoracion val ON val.id_restaurante_fk=rest.id
+                INNER JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
+                WHERE rest.nombre like ? AND cook.tipo_cocina like ?
+                GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,val.valoracion,price.precio_medio
+                ORDER BY val.valoracion ASC,price.precio_medio DESC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
+                //Si el precio es barato
+            }else{
+                $restaurantes=DB::select('SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes,price.precio_medio 
+                FROM tbl_restaurante rest 
+                INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
+                INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
+                LEFT JOIN tbl_valoracion val ON val.id_restaurante_fk=rest.id
+                INNER JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
+                WHERE rest.nombre like ? AND cook.tipo_cocina like ?
+                GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,val.valoracion,price.precio_medio
+                ORDER BY val.valoracion ASC,price.precio_medio ASC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
+            }
         }
         return response()->json($restaurantes);
     }

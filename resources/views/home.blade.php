@@ -34,9 +34,15 @@
         </select>
         <!--Formulario filtro AJAX por tipo likes-->
         <select name="likes" id="likes" onchange="filtro();return false;">
-            <option value="">Todos</option>
+            <option value="">Me da igual</option>
             <option value="likes">Más likes</option>
             <option value="dislikes">Menos likes</option>
+        </select>
+        <!--Formulario filtro AJAX por tipo likes-->
+        <select name="precio_medio" id="precio_medio" onchange="filtro();return false;">
+            <option value="">Me da igual</option>
+            <option value="caro">Más caro</option>
+            <option value="barato">Más barato</option>
         </select>
     </form>
     <table id="restaurants">
@@ -46,6 +52,7 @@
             <th>Tipo cocina</th>
             <th>Imagen general</th>
             <th>Cantidad Likes</th>
+            <th>Precio medio</th>
         </tr>
         @if($restaurantlist != null)
             @foreach ($restaurantlist as $restaurant)
@@ -59,6 +66,7 @@
                 @else
                     <td>{{$restaurant->likes}}</td>
                 @endif
+                <td>{{$restaurant->precio_medio}}</td>
             </tr>
             @endforeach
         @else
