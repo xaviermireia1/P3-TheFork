@@ -20,7 +20,7 @@ Route::get('home-adm',[RestauranteController::class,'indexAdm']);
 //Redirección a la vista del formulario
 Route::get('crear',[RestauranteController::class,'create']);
 //Proceso de creación de nuevos items(Restaurantes) en la DB
-Route::post('crear-proc',[RestauranteController::class,'createProc']);
+Route::post('crear-proc',[RestauranteController::class,'crearProc']);
 
 //Filtro home admin en AJAX
 Route::post('home-adm/show',[RestauranteController::class,'showAdm']);

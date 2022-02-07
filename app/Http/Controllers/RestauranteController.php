@@ -32,7 +32,7 @@ class RestauranteController extends Controller
 
     public function indexAdm()
     {
-        $restaurantlist = DB::select("SELECT rest.nombre,rest.direccion,img.imagen_general
+        $restaurantlist = DB::select("SELECT rest.id,rest.nombre,rest.direccion,img.imagen_general
         FROM tbl_restaurante rest 
         INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
         LEFT JOIN tbl_imagen img ON rest.id_imagen_fk=img.id");
@@ -57,21 +57,46 @@ class RestauranteController extends Controller
     }
     //Función cuya finalidad es validar los datos e insertarlos en la DB, es el proceso de inserción
     public function crearProc(Request $request){
-        //Proceso de validación por parte del server, la cual en este ejemplo pondremos el campo required, y el tamaño máximo que deberá tener
-       try {
-            $validated = $request->validate([
-                'nombre' => 'required|string|max:150',
-                'descripcion' => 'required|string|max:2000',
-                'direccion' => 'required|string|max:100',
-                'correo_responsable' => 'required|string|max:70',
-                'correo:restaurante' => 'required|string|max:70',
-                'tipo_cocina' => 'required|string|max:150',
-                'imagen_general' => 'required|mimes:jpg,png,jpeg,webp,svg'
-            ]);
-       } catch (\Throwable $th) {
-           throw $th;
-       }
-       //Como se usa validated en la query, como puedo insertar en una table diefente
+        $datas = $request->except('_token'); 
+        //Proceso de validación por parte del server, la cual en este ejemplo pondremos el campo required, y el tamaño máximo que deberá tener.
+        //Primero pasará por aquí antes de insertar los datos en la DB, simplemente los valida
+        $request->validate([
+            'nombre' => 'required|string|max:150',
+            'descripcion' => 'required|string|max:2000',
+            'direccion' => 'required|string|max:100',
+            'correo_responsable' => 'required|string|max:70|email',
+            'tipo_cocina' => 'required|string|max:200',
+            'precio_medio' => 'required|int',
+            //Tiene que estar el enctype en el formulario!!!!
+            'imagen_general' =>'required|mimes:jpg,png,jpeg,webp,svg'
+        ]); 
+        //La variable foto recoje el input file del form y lo almacena en el public de uploads se necesita el enlace simbólico entre storage y public
+        //Enlace simbólico php artisan storage:link -> En el terminal
+        $foto = $request->file('imagen_general')->store('uploads','public');
+        try {
+            //inicializa la transacción, aquí indicamos que el código siguiente contendrá inserciones en base de datos, mismas que no se verán reflejadas a menos que se haga un commit
+            DB::beginTransaction();
+                //Insertamos dato, guardándonos el id de la inserción
+                //Insertamos y recogemos el último registro insertado en la tabla, para futuramente insertarlo como fk
+                $id_imagenGeneral= DB::table('tbl_imagen')->insertGetId([
+                    /* 'imagen_general' => $request['imagen_general'], */
+                    'imagen_general' => $foto,
+                ]);
+                //"precio_medio"=>$id_precioMedio
+                $idRest = DB::table("tbl_restaurante")->insertGetId(["nombre"=>$request['nombre'],"descripcion"=>$request['descripcion'],"direccion"=>$request['direccion'],
+                "correo_responsable"=>$request['correo_responsable'],"correo_restaurante"=>$request['correo_restaurante'],"id_tipo_cocina"=>$request['tipo_cocina'],"id_imagen_fk"=>$id_imagenGeneral]);
+                DB::table('tbl_carta')->insert(['precio_medio'=> $request['precio_medio'],'id_restaurante_fk'=>$idRest]);
+                
+            //En caso de que todas las consultas a la BD se realicen con éxito, al leer este método se dará por entendido que todos los cambios realizados anteriormente quedaran reflejados en la base de datos
+            DB::commit();
+            return redirect("home-adm");
+                
+        } catch (\Exception $e) {
+                DB::rollback();
+                //En caso de error, obtendremos el mensaje 
+                return $e->getMessage();
+        }
+        //Como se usa validated en la query, como puedo insertar en una table diefente
     }
 
     /**
@@ -131,7 +156,7 @@ class RestauranteController extends Controller
         return response()->json($restaurantes);
     }
     public function showAdm(Request $request){
-        $restaurantes=DB::select('SELECT rest.nombre,rest.direccion,img.imagen_general
+        $restaurantes=DB::select('SELECT rest.id,rest.nombre,rest.direccion,img.imagen_general
         FROM tbl_restaurante rest 
         INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
         LEFT JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
