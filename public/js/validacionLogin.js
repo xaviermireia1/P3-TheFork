@@ -11,7 +11,7 @@ function validarRegister() {
             title: 'Datos no rellenados',
             text: 'Todos los campos son obligatorios',
             showConfirmButton: false,
-            timer: 2000,
+            timer: 2200,
             timerProgressBar: true
         });
         return false;
@@ -34,10 +34,44 @@ function validarRegister() {
                 title: 'Contraseña incorrecta',
                 text: 'Una de las dos contraseñas no coinciden',
                 showConfirmButton: false,
-                timer: 2000,
+                timer: 2200,
                 timerProgressBar: true
             });
             return false;
         }
+    }
+}
+
+//Validación login
+function loginValidate() {
+    let email = document.getElementById("email").value;
+    let pass = document.getElementById("pass").value;
+    if (email == '') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Email vacío',
+            text: 'Por favor introduce el email',
+            showConfirmButton: true,
+            timer: 4000,
+            timerProgressBar: false
+        });
+        return false;
+    } else if (pass == '') {
+        Swal.fire({
+            icon: 'error',
+            title: 'Password vacío',
+            text: 'Por favor introduce el password para iniciar sesion',
+            showConfirmButton: true,
+            timer: 4000,
+            timerProgressBar: false
+        });
+        return false;
+    } else {
+        /* Swal.fire({
+            icon: 'success',
+            showConfirmButton: false,
+            timer: 10000,
+            timerProgressBar: true
+        }); */
     }
 }

@@ -22,6 +22,9 @@
 </head>
 
 <body>
+<form action="{{url("crear")}}" method="get">
+    <input type="submit" value="crear">
+</form>
   <!--Formulario filtro AJAX por nombre-->
   <form method="post" onsubmit="return false;">
     <input type="text" name="nombre" id="nombre" onkeyup="filtro();return false;">
