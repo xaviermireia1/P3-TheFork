@@ -56,7 +56,6 @@
             <div>
                 <img src="img/logincomida.png" alt="comida" style="padding-top: 30px">
             </div>
-        
     </div>
 </body>
 </html>

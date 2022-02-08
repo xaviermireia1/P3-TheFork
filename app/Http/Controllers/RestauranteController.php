@@ -33,7 +33,7 @@ class RestauranteController extends Controller
 
     public function indexAdm()
     {
-        $restaurantlist = DB::select("SELECT rest.nombre,rest.direccion,img.imagen_general
+        $restaurantlist = DB::select("SELECT rest.id,rest.nombre,rest.direccion,img.imagen_general
         FROM tbl_restaurante rest 
         INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
         LEFT JOIN tbl_imagen img ON rest.id_imagen_fk=img.id");
