@@ -1,9 +1,10 @@
-@if (!Session::get('email'))
+@if (!Session::get('email')||Session::get('rol') != "Admin")
     <?php
         //Si la session no esta definida te redirige al login, la session se crea en el método.
-        return redirect()->to('login')->send();
+        return redirect()->to('/')->send();
     ?>
 @endif
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
