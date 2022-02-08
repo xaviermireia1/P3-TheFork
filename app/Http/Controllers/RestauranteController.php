@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\MAIL;
+use App\Mail\SendMessage;
 
 class RestauranteController extends Controller
 {
@@ -292,8 +294,21 @@ class RestauranteController extends Controller
                 [$request->input('nombre'),$request->input('descripcion'),$request->input('direccion'),$request->input('correo_responsable'), $request->input('correo_restaurante'), 
                 $request->input('tipo_cocina'), $request->input('id')]);
             //Query de actualización de datos en tbl_carta
-                DB::update('update tbl_carta set precio_medio=? where id_restaurante_fk = ?', [$request->input('precio_medio'), $request->input('id')]);
+            DB::update('update tbl_carta set precio_medio=? where id_restaurante_fk = ?', [$request->input('precio_medio'), $request->input('id')]);
             DB::commit();
+            //Enviar correo al propietario
+            $sub = "Modificación del restaurante: ".$request->input('nombre');
+            $msj = "Buenas tardes,\r\n Su restaurante: ".$request->input('nombre')." Se ha modificado por nuestro administrador con el correo: ".session('email')."       
+            Los datos modificados se la siguiente manera: \r\n
+            Nombre:".$request->input('nombre')."\r\n
+            Direccion: ".$request->input('direccion')."\r\n
+            Descripcion: ".$request->input('direccion')."\r\n
+            Precio medio de la carta: ".$request->input('precio_medio')."
+            \r\nCualquier inconveniente no dude en contactarnos. \r\n Atentamente el equipo de TheFork";
+            $datos = array('message'=>$msj);
+            $enviar = new SendMessage($datos);
+            $enviar->sub = $sub;
+            Mail::to($request->input('correo_responsable'))->send($enviar);
             //redirección a index
             return redirect('home-adm');
         } catch (\Throwable $e) {
