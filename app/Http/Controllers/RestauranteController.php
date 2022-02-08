@@ -7,6 +7,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\MAIL;
+use App\Mail\SendMessage;
 
 class RestauranteController extends Controller
 {
@@ -255,7 +257,7 @@ class RestauranteController extends Controller
     public function edit($id)
     {
         try {
-            $restaurantContent = DB::select("SELECT rest.id,rest.nombre,rest.direccion,rest.correo_responsable,rest.descripcion,rest.correo_restaurante,cook.tipo_cocina,price.precio_medio
+            $restaurantContent = DB::select("SELECT rest.id,rest.nombre,rest.direccion,rest.correo_responsable,rest.descripcion,rest.correo_restaurante,cook.id as id_cocina,cook.tipo_cocina,price.precio_medio
             FROM tbl_restaurante rest 
             INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
             INNER JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
@@ -300,8 +302,21 @@ class RestauranteController extends Controller
                 [$request->input('nombre'),$request->input('descripcion'),$request->input('direccion'),$request->input('correo_responsable'), $request->input('correo_restaurante'), 
                 $request->input('tipo_cocina'), $request->input('id')]);
             //Query de actualización de datos en tbl_carta
-                DB::update('update tbl_carta set precio_medio=? where id_restaurante_fk = ?', [$request->input('precio_medio'), $request->input('id')]);
+            DB::update('update tbl_carta set precio_medio=? where id_restaurante_fk = ?', [$request->input('precio_medio'), $request->input('id')]);
             DB::commit();
+            //Enviar correo al propietario
+            $sub = "Modificación del restaurante: ".$request->input('nombre');
+            $msj = "Buenas tardes,\r\n Su restaurante: ".$request->input('nombre')." Se ha modificado por nuestro administrador con el correo: ".session('email')."       
+            Los datos modificados se la siguiente manera: \r\n
+            Nombre:".$request->input('nombre')."\r\n
+            Direccion: ".$request->input('direccion')."\r\n
+            Descripcion: ".$request->input('direccion')."\r\n
+            Precio medio de la carta: ".$request->input('precio_medio')."
+            \r\nCualquier inconveniente no dude en contactarnos. \r\n Atentamente el equipo de TheFork";
+            $datos = array('message'=>$msj);
+            $enviar = new SendMessage($datos);
+            $enviar->sub = $sub;
+            Mail::to($request->input('correo_responsable'))->send($enviar);
             //redirección a index
             return redirect('home-adm');
         } catch (\Throwable $e) {
@@ -475,7 +490,7 @@ class RestauranteController extends Controller
 
         //Funcion parair a vista restaurante cliente
         public function restaurantHome($id){
-            $restaurant=DB::select("SELECT rest.nombre,rest.direccion,rest.descripcion,cook.tipo_cocina,img.*,sum(tbl_valoracion.valoracion) as likes,tbl_valoracion.comentario,price.precio_medio,usuario.nombre
+            $restaurant=DB::select("SELECT rest.nombre,rest.direccion,rest.descripcion,cook.tipo_cocina,img.*,sum(tbl_valoracion.valoracion) as likes,price.precio_medio
             FROM tbl_restaurante rest 
             INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
             INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
@@ -483,8 +498,14 @@ class RestauranteController extends Controller
             INNER JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
             INNER JOIN tbl_usuario usuario ON tbl_valoracion.id_usuario_fk=usuario.id
             where rest.id = $id
-            group by rest.nombre, img.id, img.imagen_general, img.imagen1, img.imagen2, img.imagen3, img.imagen4, rest.direccion, rest.descripcion, cook.tipo_cocina, tbl_valoracion.comentario, price.precio_medio, usuario.nombre");
-            return view("restaurant",compact("restaurant"));
+            group by rest.nombre, img.id, img.imagen_general, img.imagen1, img.imagen2, img.imagen3, img.imagen4, rest.direccion, rest.descripcion, cook.tipo_cocina,price.precio_medio");
+            
+            $valoraciones=DB::select("SELECT tbl_valoracion.valoracion,tbl_valoracion.comentario,tbl_usuario.nombre
+            FROM tbl_valoracion 
+            INNER JOIN tbl_usuario ON tbl_valoracion.id_usuario_fk=tbl_usuario.id
+            where id_restaurante_fk = $id");
+            //return $valoraciones;
+            return view("restaurant",compact("restaurant","valoraciones"));
         }
 
 }
