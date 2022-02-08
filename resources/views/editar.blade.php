@@ -82,7 +82,7 @@
                         @endforeach 
                     </select></br>
                     <span>Precio medio</span>
-                        <input type="number" name="precio_medio" value="{{$restaurant->precio_medio}}">
+                        <input type="number" step="any" name="precio_medio" value="{{$restaurant->precio_medio}}">
                         <br>
                     <input type="hidden" name="id" value="{{$restaurant->id}}">
                     <input type="submit" value="Actualizar restaurante">
