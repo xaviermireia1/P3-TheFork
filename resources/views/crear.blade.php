@@ -79,7 +79,7 @@
                   </select>
                   <br>
                   <span>Precio medio</span>
-                      <input type="number" name="precio_medio">
+                      <input type="number" step="any" name="precio_medio">
                       <br>
                   <span>Imagen</span>
                       <input type="file" name="imagen_general">
