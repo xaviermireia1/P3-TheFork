@@ -83,7 +83,7 @@
         <div class="one-column-res">
             @if($restaurantlist != null)
                 @foreach ($restaurantlist as $restaurant)
-                    <div class="box-res" onclick="window.location.href='{{url('home/restaurant/'.$restaurant->id)}}'">
+                    <div style="cursor: pointer" class="box-res" onclick="window.location.href='{{url('home/restaurant/'.$restaurant->id)}}'">
                         <div class="three-column-res">
                             <img width="276px" height="216px" src="{{asset('storage').'/'.$restaurant->imagen_general}}">
                         </div>
@@ -97,10 +97,10 @@
 
                         <div class="three-column-res">
                             @if ($restaurant->likes == null)
-                                <p>0 <i class="fas fa-heart"></i></p>
+                                <p style="font-size: 20px">0 <i class="fas fa-heart"></i></p>
                                 
                             @else
-                                <p>{{$restaurant->likes}} <i class="fas fa-heart" style="color: red"></i></p>
+                                <p style="font-size: 20px">{{$restaurant->likes}} <i class="fas fa-heart" style="color: red"></i></p>
                                 
                             @endif
                         </div>
@@ -108,7 +108,7 @@
                 @endforeach
                 
             @else
-            <h1>No se han encontrado elementos</h1>
+            <h2 style="padding: 0px 0px 10px 20vh">No se han encontrado elementos</h2>
             @endif
         </div>
     </div>
@@ -130,8 +130,8 @@
         <div class="row" id="footer2">
             <div class="four-column-footer">
                 <h3 style="font-weight:500">Descargar aplicación</h3>
-                <p><img src="../public/img/applestore.png" alt="applestore"></p>
-                <p><img src="../public/img/playstore.png" alt="googleplay"></p>
+                <p><img src="../public/img/applestore.png" alt="applestore" style="cursor: pointer"></p>
+                <p><img src="../public/img/playstore.png" alt="googleplay" style="cursor: pointer"></p>
             </div>
 
             <div class="four-column-footer">

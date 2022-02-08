@@ -78,8 +78,8 @@
         <div class="row" id="footer2">
             <div class="four-column-footer">
                 <h3 style="font-weight:500">Descargar aplicación</h3>
-                <p><img src="../public/img/applestore.png" alt="applestore"></p>
-                <p><img src="../public/img/playstore.png" alt="googleplay"></p>
+                <p><img src="../public/img/applestore.png" alt="applestore" style="cursor: pointer"></p>
+                <p><img src="../public/img/playstore.png" alt="googleplay" style="cursor: pointer"></p>
             </div>
 
             <div class="four-column-footer">
