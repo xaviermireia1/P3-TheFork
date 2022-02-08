@@ -11,9 +11,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.rtl.min.css"/>
     <title>Document</title>
 </head>
 <body>
+    @error('imagen')
+    <script>
+        window.onload = function(){
+            alertify.error("En las acciones insertar/modificar la imagen es obligatorio");
+        }
+    </script>
+    @enderror
     <table border="1">
         <tr>
             <th>Imagen general</th>
@@ -48,12 +58,14 @@
                     <input type="file" name="imagen">
                     <input type="submit" value="Cambiar Imagen">
                     <input type="hidden" name="rowName" value="imagen_general">
+                    <input type="hidden" name="file" value="{{$result->imagen_general}}">
                     <input type="hidden" name="id" value="{{$result->id}}">
                 </form>
                 <form action="{{url('delImage')}}" method="post">
                     @csrf
                     {{method_field('PUT')}}
                     <input type="submit" value="Eliminar Imagen">
+                    <input type="hidden" name="file" value="{{$result->imagen_general}}">
                     <input type="hidden" name="rowName" value="imagen_general">
                     <input type="hidden" name="id" value="{{$result->id}}">
                 </form>
@@ -74,8 +86,9 @@
                     @csrf
                     {{method_field('PUT')}}
                     <input type="file" name="imagen">
-                    <input type="submit" value="Cambiar Imagen">
                     <input type="hidden" name="rowName" value="imagen1">
+                    <input type="submit" value="Cambiar Imagen">
+                    <input type="hidden" name="file" value="{{$result->imagen1}}">
                     <input type="hidden" name="id" value="{{$result->id}}">
                 </form>
                 <form action="{{url('delImage')}}" method="post">
@@ -83,6 +96,7 @@
                     {{method_field('PUT')}}
                     <input type="submit" value="Eliminar Imagen">
                     <input type="hidden" name="rowName" value="imagen1">
+                    <input type="hidden" name="file" value="{{$result->imagen1}}">
                     <input type="hidden" name="id" value="{{$result->id}}">
                 </form>
                 @endif
@@ -104,12 +118,14 @@
                     <input type="file" name="imagen">
                     <input type="hidden" name="rowName" value="imagen2">
                     <input type="submit" value="Cambiar Imagen">
+                    <input type="hidden" name="file" value="{{$result->imagen2}}">
                     <input type="hidden" name="id" value="{{$result->id}}">
                 </form>
                 <form action="{{url('delImage')}}" method="post">
                     @csrf
                     {{method_field('PUT')}}
                     <input type="submit" value="Eliminar Imagen">
+                    <input type="hidden" name="file" value="{{$result->imagen2}}">
                     <input type="hidden" name="rowName" value="imagen2">
                     <input type="hidden" name="id" value="{{$result->id}}">
                 </form>
@@ -132,6 +148,7 @@
                     <input type="file" name="imagen">
                     <input type="submit" value="Cambiar Imagen">
                     <input type="hidden" name="rowName" value="imagen3">
+                    <input type="hidden" name="file" value="{{$result->imagen3}}">
                     <input type="hidden" name="id" value="{{$result->id}}">
                 </form>
                 <form action="{{url('delImage')}}" method="post">
@@ -139,6 +156,7 @@
                     {{method_field('PUT')}}
                     <input type="submit" value="Eliminar Imagen">
                     <input type="hidden" name="rowName" value="imagen3">
+                    <input type="hidden" name="file" value="{{$result->imagen3}}">
                     <input type="hidden" name="id" value="{{$result->id}}">
                 </form>
                 @endif
@@ -160,6 +178,7 @@
                     <input type="file" name="imagen">
                     <input type="submit" value="Cambiar Imagen">
                     <input type="hidden" name="rowName" value="imagen4">
+                    <input type="hidden" name="file" value="{{$result->imagen4}}">
                     <input type="hidden" name="id" value="{{$result->id}}">
                 </form>
                 <form action="{{url('delImage')}}" method="post">
@@ -167,6 +186,7 @@
                     {{method_field('PUT')}}
                     <input type="submit" value="Eliminar Imagen">
                     <input type="hidden" name="rowName" value="imagen4">
+                    <input type="hidden" name="file" value="{{$result->imagen4}}">
                     <input type="hidden" name="id" value="{{$result->id}}">
                 </form>
                 @endif
