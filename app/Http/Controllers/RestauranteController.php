@@ -63,7 +63,6 @@ class RestauranteController extends Controller
         //Primero pasará por aquí antes de insertar los datos en la DB, simplemente los valida
         $request->validate([
             'nombre' => 'required|string|max:150',
-            'descripcion' => 'required|string|max:2000',
             'direccion' => 'required|string|max:100',
             'correo_responsable' => 'required|string|max:70|email',
             'tipo_cocina' => 'required|string|max:200',
@@ -283,7 +282,16 @@ class RestauranteController extends Controller
     public function update(Request $request)
     {
         //Quitamos el token y el método
-        $datas = $request->except('_token', '_method'); 
+        $datas = $request->except('_token', '_method');
+        //Verificamos los datos a actualizar
+        $request->validate([
+            'nombre' => 'required|string|max:150',
+            'direccion' => 'required|string|max:100',
+            'correo_responsable' => 'required|string|max:70|email',
+            'tipo_cocina' => 'required|string|max:200',
+            'precio_medio' => 'required|int',
+        ]);
+
         try {
             DB::beginTransaction();
             //Query de actualización de datos en tbl_restaurante
@@ -370,10 +378,20 @@ class RestauranteController extends Controller
         return view('register');
     }
     public function registerPost(Request $request){
+
+        $request-> validate([
+            'nombre' => 'required|string|max:50',
+            'apellidos' => 'required|string|max:70',
+            //Esta línea comprueba que el email a validar es único, y que no existe ya en la DB
+            'email' => 'required|unique:tbl_usuario,email|string|max:60',
+            'pass' => 'required|string|max:255',
+            'nombre' => 'required|string|max:255'
+        ]);
+
         //Comprobamos si existe el email que ha introducido en la base de datos
-        $existmail=DB::select('select email from tbl_usuario where email=?',[$request->input('email')]);
+        //$existmail=DB::select('select email from tbl_usuario where email=?',[$request->input('email')]);
         //Si el resultado es menor a uno hacemos el registro
-        if (count($existmail) < 1) {
+        /* if (count($existmail) < 1) { */
             try {
                 //Encriptamos la contraseña a sha1
                 $password = sha1($request->input('password'));
@@ -382,11 +400,11 @@ class RestauranteController extends Controller
                 $request->session()->put('email',$request->email);
                 return redirect("home");
             } catch (\Throwable $th) {
-                return $th;
+                return redirect("register");
             }
-        }else{
+        /* }else{
             return redirect("register");
-        }
+        } */
     }
     //Función con redirección a la vista de Login
     public function login(){
@@ -399,9 +417,15 @@ class RestauranteController extends Controller
 
     //Proceso de verificación de usuarios + redirección a la ruta correspondiente
     public function loginProc(Request $request){
+        //recogemos los datos, teniendo exepciones, como el token que utiliza laravel y el método
+        $datas = $request->except('_token', '_method');
+        //Validación datos por parte del server, es necesario aunque pase por JS 
+        $request->validate([
+            'email' => 'required|string|max:60',
+            'pass' => 'required|string|max:255'
+        ]);
+
         try {
-            //recogemos los datos, teniendo exepciones, como el token que utiliza laravel y el método
-            $datas = $request->except('_token', '_method');
             //Hacemos la consulta con la DB, la cual contará nuestros resultados 1-0
             $queryId = DB::table('tbl_usuario')->where('email', '=', $datas['email'])->where('pass', '=', sha1($datas['pass']))->count();
             //Obtenemos todos los resultados de la DB, posteiriormente cogeremos un campo en concreto, obtenemos el primer resultado
@@ -413,8 +437,10 @@ class RestauranteController extends Controller
                 //Establecemos sesión, solcitando el dato a Request
                 $request->session()->put('email', $request->email);
                 if($rolUser == 'Admin'){
+                    $request->session()->put('rol', $rolUser);
                     return redirect("home-adm");
                 }else{
+                    $request->session()->put('rol', $rolUser);
                     return redirect("home");
                 }
                 /* return redirect('home'); */
