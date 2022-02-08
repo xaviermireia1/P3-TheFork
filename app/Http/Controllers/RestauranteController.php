@@ -474,17 +474,46 @@ class RestauranteController extends Controller
         $request->session()->flush();
         return redirect('/');
     }
-    //Funcion para agregar foto
-    public function addImage($idRes){
 
+    //Vista restaurante admin
+    public function restaurantADM($id){
+        $restaurant=DB::select("SELECT rest.id as idrest,rest.nombre,rest.direccion,rest.descripcion,img.*
+        FROM tbl_restaurante rest 
+        INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
+        where rest.id = $id");
+        return view("restaurant_admin",compact("restaurant"));
+    }
+    //Funcion para agregar foto
+    public function addImage(Request $request){
+        //return $request;
+        if ($request->input('rowName')=="imagen_general") {
+            $datos['imagen_general'] = $request->file('imagen')->store('uploads','public');
+            DB::update("UPDATE tbl_imagen SET imagen_general=? WHERE id=?",[$datos['imagen_general'],$request->input('id')]);
+        }elseif ($request->input('rowName')=="imagen1") {
+            $datos['imagen1'] = $request->file('imagen')->store('uploads','public');
+            DB::update("UPDATE tbl_imagen SET imagen1=? WHERE id=?",[$datos['imagen1'],$request->input('id')]);
+
+        }elseif ($request->input('rowName')=="imagen2") {
+            $datos['imagen2'] = $request->file('imagen')->store('uploads','public');
+            DB::update("UPDATE tbl_imagen SET imagen2=? WHERE id=?",[$datos['imagen2'],$request->input('id')]);
+
+        }elseif ($request->input('rowName')=="imagen3") {
+            $datos['imagen3'] = $request->file('imagen')->store('uploads','public');
+            DB::update("UPDATE tbl_imagen SET imagen3=? WHERE id=?",[$datos['imagen3'],$request->input('id')]);
+
+        }elseif ($request->input('rowName')=="imagen4") {
+            $datos['imagen4'] = $request->file('imagen')->store('uploads','public');
+            DB::update("UPDATE tbl_imagen SET imagen4=? WHERE id=?",[$datos['imagen4'],$request->input('id')]);
+        }
+        return redirect('home_admin/restaurant_admin/'.$request->input('id'));
     }
     //Funcion para eliminar foto
-    public function delImage($idImg){
-
+    public function delImage(Request $request){
+        return $request;
     }
     //Funcion para cambiar foto
-    public function changeImage($idImg){
-
+    public function changeImage(Request $request){
+        return $request;
     }
 
         //Funcion parair a vista restaurante cliente
