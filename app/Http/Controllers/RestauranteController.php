@@ -68,7 +68,7 @@ class RestauranteController extends Controller
             'direccion' => 'required|string|max:100',
             'correo_responsable' => 'required|string|max:70|email',
             'tipo_cocina' => 'required|string|max:200',
-            'precio_medio' => 'required|int',
+            'precio_medio' => 'required|between:0,99.99',
             //Tiene que estar el enctype en el formulario!!!!
             'imagen_general' =>'required|mimes:jpg,png,jpeg,webp,svg'
         ]); 
@@ -291,9 +291,9 @@ class RestauranteController extends Controller
             'direccion' => 'required|string|max:100',
             'correo_responsable' => 'required|string|max:70|email',
             'tipo_cocina' => 'required|string|max:200',
-            'precio_medio' => 'required|int',
+            'precio_medio' => 'required|between:0,99.99',
         ]);
-
+        return $request;
         try {
             DB::beginTransaction();
             //Query de actualización de datos en tbl_restaurante
