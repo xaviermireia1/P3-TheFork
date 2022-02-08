@@ -71,17 +71,17 @@
         <div class="one-column-res">
             @if($restaurantlist != null)
                 @foreach ($restaurantlist as $restaurant)
-                    <div class="box-res" onclick="window.location.href='{{url('home_admin/restaurant_admin/'.$restaurant->id)}}'">
-                        <div class="three-column-res">
+                    <div class="box-res">
+                        <div style="cursor: pointer" class="three-column-res" onclick="window.location.href='{{url('home_admin/restaurant_admin/'.$restaurant->id)}}'">
                             <img width="276px" height="216px" src="{{asset('storage').'/'.$restaurant->imagen_general}}">
                         </div>
-                        <div class="three-column-res">
+                        <div style="cursor: pointer" class="three-column-res" onclick="window.location.href='{{url('home_admin/restaurant_admin/'.$restaurant->id)}}'">
                             <p><b>{{$restaurant->nombre}}</b></p>
                             <p>{{$restaurant->direccion}}</p>
                         </div>   
                         <div class="three-column-res">
-                            <button onclick="window.location.href='{{url('home-adm/update/'.$restaurant->id)}}'">Actualizar Restaurante</button>
-                            <button onclick="window.location.href='{{url('home-adm/delete/'.$restaurant->id)}}'">Eliminar Restaurante</button>
+                            <button name="actualizar" onclick="window.location.href='{{url('home-adm/update/'.$restaurant->id)}}'">Actualizar Restaurante</button>
+                            <button name="eliminar" onclick="window.location.href='{{url('home-adm/delete/'.$restaurant->id)}}'">Eliminar Restaurante</button>
                         </div>
                     </div>
                 @endforeach
@@ -108,8 +108,8 @@
         <div class="row" id="footer2">
             <div class="four-column-footer">
                 <h3 style="font-weight:500">Descargar aplicación</h3>
-                <p><img src="../public/img/applestore.png" alt="applestore"></p>
-                <p><img src="../public/img/playstore.png" alt="googleplay"></p>
+                <p><img src="../public/img/applestore.png" alt="applestore" style="cursor: pointer"></p>
+                <p><img src="../public/img/playstore.png" alt="googleplay" style="cursor: pointer"></p>
             </div>
 
             <div class="four-column-footer">
