@@ -6,7 +6,6 @@
 
 body {
     margin: 0;
-    background-color: #f2f6f4;
 }
 
 
@@ -19,7 +18,7 @@ body {
 }
 
 
-/* CLASES*/
+/* CLASES HEADER */
 
 .one-column-s1 {
     float: right;
@@ -39,9 +38,24 @@ a:active {
     text-decoration: none;
 }
 
+#section1 {
+    background-color: rgb(233, 233, 233);
+}
+
+#section2 {
+    background-color: rgb(255, 255, 255);
+}
+
+
+/* CONTENIDO */
+
+#section3 {
+    background-color: #f2f6f4;
+}
+
 .two-column-s3 {
     width: 50%;
-    padding: 80px 0px 20px 10%;
+    padding: 80px 0px 40px 10%;
     float: left;
 }
 
@@ -56,12 +70,13 @@ form {
 }
 
 form p {
-    width: 200px;
+    width: 72px;
     font-weight: bold;
 }
 
-form input[type="password"],
 form input[type="text"],
+form input[type="file"],
+form select,
 form input[type="email"] {
     width: 100%;
     padding: 9px 10px;
@@ -86,21 +101,57 @@ form input[type="submit"]:hover {
 }
 
 
-/* SECCIONES */
+/* CLASES DE COLUMNAS FOOTER */
 
-#section1 {
-    background-color: rgb(233, 233, 233);
+.one-column-footer {
+    padding: 10px;
+    float: left;
+    color: white;
+    width: 100%;
 }
 
-#section2 {
-    background-color: rgb(255, 255, 255);
+.two-column-footer {
+    float: left;
+    width: 15%;
 }
 
-#section3 {
-    background-color: #f2f6f4;
+.four-column-footer {
+    float: left;
+    padding: 0px 5% 30px 5%;
+    width: 25%;
+    color: white;
+}
+
+.one-column-footer p {
+    font-weight: 500;
+}
+
+.four-column-footer p {
+    font-weight: 500;
+}
+
+#footer1 {
+    background-color: #3c4048;
+}
+
+#footer2 {
+    background-color: #000000;
 }
 
 
 /* RESPONSIVE */
 
-@media screen and (max-width:700px) {}
+@media screen and (max-width:700px) {
+    .one-column-footer h1 {
+        font-size: 4vw;
+    }
+    .four-column-footer {
+        width: 50%;
+    }
+    .four-column-footer h3 {
+        font-size: 3.5vw;
+    }
+    .four-column-footer p {
+        font-size: 3vw;
+    }
+}

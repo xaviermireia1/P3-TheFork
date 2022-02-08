@@ -97,10 +97,10 @@
 
                         <div class="three-column-res">
                             @if ($restaurant->likes == null)
-                                <p>0 <i class="fas fa-heart"></i></p>
+                                <p style="font-size: 20px">0 <i class="fas fa-heart"></i></p>
                                 
                             @else
-                                <p>{{$restaurant->likes}} <i class="fas fa-heart" style="color: red"></i></p>
+                                <p style="font-size: 20px">{{$restaurant->likes}} <i class="fas fa-heart" style="color: red"></i></p>
                                 
                             @endif
                         </div>
