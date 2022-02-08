@@ -111,13 +111,47 @@ form input[type="submit"]:hover {
     float: left;
 }
 
+button[name="eliminar"] {
+    width: 80%;
+    padding: 8px 16px;
+    margin-top: 32px;
+    color: #fff;
+    border-radius: 5px;
+    background-color: rgb(153, 29, 29);
+}
+
+button[name="eliminar"]:hover {
+    cursor: pointer;
+    background-color: rgb(107, 19, 19);
+}
+
+button[name="actualizar"] {
+    width: 80%;
+    padding: 8px 16px;
+    margin-top: 32px;
+    color: #fff;
+    border-radius: 5px;
+    background-color: rgb(29, 153, 116);
+}
+
+button[name="actualizar"]:hover {
+    cursor: pointer;
+    background-color: rgb(19, 107, 92);
+}
+
 
 /* CLASES DE COLUMNAS FOOTER */
 
 .one-column-footer {
     padding: 10px;
-    text-align: left;
+    float: left;
     color: white;
+    width: 100%;
+}
+
+.two-column-footer {
+    float: left;
+    width: 15%;
 }
 
 .four-column-footer {
@@ -125,6 +159,14 @@ form input[type="submit"]:hover {
     padding: 0px 5% 30px 5%;
     width: 25%;
     color: white;
+}
+
+.one-column-footer p {
+    font-weight: 500;
+}
+
+.four-column-footer p {
+    font-weight: 500;
 }
 
 #footer1 {

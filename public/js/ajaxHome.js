@@ -49,7 +49,7 @@ function filtro() {
             var recarga = '';
             console.log(respuesta.length);
             if (respuesta.length == 0) {
-                recarga += '<h1>No se han encontrado restaurantes</h1>';
+                recarga += '<h2 style="padding: 0px 0px 10px 25vh; color: red;">No se han encontrado restaurantes :(</h2>';
             } else {
                 //Reconstruimos la pagina
                 recarga += '<div class="one-column-res">';

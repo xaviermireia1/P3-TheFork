@@ -40,21 +40,29 @@ function filtro() {
             var respuesta = JSON.parse(this.responseText);
             //Varible para recargar la pagina
             var recarga = '';
+            console.log(respuesta.length);
             if (respuesta.length == 0) {
-                recarga += '<h1>No se han encontrado restaurantes</h1>'
+                recarga += '<h2 style="padding: 0px 0px 10px 25vh; color: red;">No se han encontrado restaurantes :(</h2>';
             } else {
                 //Reconstruimos la pagina
-                recarga += '<tr>';
-                recarga += '<th>Nombre</th>';
-                recarga += '<th>Direccion</th>';
-                recarga += '<th>Imagen general</th>';
-                recarga += '</tr>';
+                recarga += '<div class="one-column-res">';
                 for (let i = 0; i < respuesta.length; i++) {
-                    recarga += '<tr>';
-                    recarga += '<td>' + respuesta[i].nombre + '</td>';
-                    recarga += '<td>' + respuesta[i].direccion + '</td>';
-                    recarga += '<td><img src="storage/' + respuesta[i].imagen_general + '"></td>';
-                    recarga += '</tr>';
+                    let urlRest = 'home-adm/restaurant_admin/' + respuesta[i].id;
+                    let urlUpd = 'home-adm/update/' + respuesta[i].id;
+                    let urlDel = 'home-adm/delete/' + respuesta[i].id;
+                    recarga += `<div class="box-res">`;
+                    recarga += `<div style="cursor:pointer" class="three-column-res" onclick="window.location.href='` + urlRest + `'">`;
+                    recarga += `<img width="276px" height="216px" src="storage/` + respuesta[i].imagen_general + `">`;
+                    recarga += `</div>`;
+                    recarga += `<div style="cursor:pointer" class="three-column-res" onclick="window.location.href='` + urlRest + `'">`;
+                    recarga += '<p><b>' + respuesta[i].nombre + '</b></p>';
+                    recarga += '<p>' + respuesta[i].direccion + '</p>';
+                    recarga += `</div>`;
+                    recarga += '<div class="three-column-res">';
+                    recarga += `<button name="actualizar" onclick="window.location.href='` + urlUpd + `'">Actualizar Restaurante</button>`;
+                    recarga += `<button name="eliminar" onclick="window.location.href='` + urlDel + `'">Eliminar Restaurante</button>`;
+                    recarga += `</div>`;
+                    recarga += `</div>`;
                 }
             }
             restaurantContent.innerHTML = recarga;

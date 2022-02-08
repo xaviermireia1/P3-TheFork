@@ -16,7 +16,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
-    <title>Crear</title>
+    <title>Crear TheFork</title>
     <link rel="shortcut icon" href="../public/img/icono.png">
 </head>
 <body>
@@ -56,7 +56,7 @@
                       <input type="text" name="nombre">
                       <br>
                   <span>Descripción:</span>
-                      <input type="text" name="descripcion">
+                      <textarea name="descripcion" cols="30" rows="10" style="resize: none"></textarea>
                       <br>
                   <span>Dirección:</span>
                       <input type="text" name="direccion">
@@ -76,11 +76,14 @@
                           {{--Como value pasamos el id del resultado que mostramos--}}
                           <option value="{{$result->id}}">{{$result->tipo_cocina}}</option>
                       @endforeach 
-                  </select></br>
+                  </select>
+                  <br>
                   <span>Precio medio</span>
-                      <input type="number" name="precio_medio"></br>
+                      <input type="number" name="precio_medio">
+                      <br>
                   <span>Imagen</span>
-                      <input type="file" name="imagen_general"></br>
+                      <input type="file" name="imagen_general">
+                      <br>
                   @error('imagen_general')
                   <br>
                   {{$message}}
@@ -111,8 +114,8 @@
         <div class="row" id="footer2">
             <div class="four-column-footer">
                 <h3 style="font-weight:500">Descargar aplicación</h3>
-                <p><img src="../public/img/applestore.png" alt="applestore"></p>
-                <p><img src="../public/img/playstore.png" alt="googleplay"></p>
+                <p><img src="../public/img/applestore.png" alt="applestore" style="cursor: pointer"></p>
+                <p><img src="../public/img/playstore.png" alt="googleplay" style="cursor: pointer"></p>
             </div>
 
             <div class="four-column-footer">
