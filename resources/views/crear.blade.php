@@ -42,50 +42,57 @@
         </div>
     </header>
 
-
     <div class="row" id="section3">
         <div class="two-column-s3">
             <div>
-                <form action="{{url("crear-proc")}}" method="post">
-                    {{--Token de seguridad--}}
-                    @csrf
-                    <center>
-                        <h1>Nuevo restaurante</h1>
-                    </center>
-                    <span>Nombre:</span>
-                        <input type="text" name="nombre">
-                    <br>
-                    <span>Descripción:</span>
-                        <input type="text" name="descripcion">
-                    <br>
-                    <span>Dirección:</span>
-                        <input type="text" name="direccion">
-                    <br>
-                    <span>Email del responsable:</span>
-                        <input type="email" name="correo_responsable">
-                    <br>
-                    <span>Email restaurante:</span>
-                        <input type="email" name="correo_restaurante">
-                    <br>
-                    <label for="cars">Tipo de cocina:</label>
-                    <select name="tipo_cocina" id="cars">
-                        <option value="">Seleccione una opción</option>
-                        <!--Extracción valores desde la DB, la variable se envía desde el método-->
-                        @foreach ($dbExtraction as $result)
-                            {{--Recordemos pasarle el resultado que queremos de la variable enviada desde el método--}}
-                            <option value="{{$result->tipo_cocina}}">{{$result->tipo_cocina}}</option>
-                        @endforeach 
-                    </select></br>
-                    <input type="file" name="imagen_general"></br>
-                    <input type="submit" value="Crear restaurante">
-                </form>
+              <!--Es muy importante añadir el enctype debido a que en caso de que no esté obtendremos muchos errores-->
+              <form action="{{url("crear-proc")}}" method="post" enctype="multipart/form-data">
+                  {{--Token de seguridad--}}
+                  @csrf
+                  <center>
+                      <h1>Nuevo restaurante</h1>
+                  </center>                  
+                  <span>Nombre:</span>
+                      <input type="text" name="nombre">
+                      <br>
+                  <span>Descripción:</span>
+                      <input type="text" name="descripcion">
+                      <br>
+                  <span>Dirección:</span>
+                      <input type="text" name="direccion">
+                      <br>
+                  <span>Email del responsable:</span>
+                      <input type="email" name="correo_responsable">
+                      <br>
+                  <span>Email restaurante:</span>
+                      <input type="email" name="correo_restaurante">
+                      <br>
+                  <label for="cars">Tipo de cocina:</label>
+                  <select name="tipo_cocina" id="cars">
+                      <option value="">Seleccione una opción</option>
+                      <!--Extracción valores desde la DB, la variable se envía desde el método-->
+                      @foreach ($dbExtraction as $result)
+                          {{--Recordemos pasarle el resultado que queremos de la variable enviada desde el método--}}
+                          {{--Como value pasamos el id del resultado que mostramos--}}
+                          <option value="{{$result->id}}">{{$result->tipo_cocina}}</option>
+                      @endforeach 
+                  </select></br>
+                  <span>Precio medio</span>
+                      <input type="number" name="precio_medio"></br>
+                  <span>Imagen</span>
+                      <input type="file" name="imagen_general"></br>
+                  @error('imagen_general')
+                  <br>
+                  {{$message}}
+                  @enderror
+                  <input type="submit" value="Crear restaurante">
+              </form>
             </div>
         </div>
-            <div>
-                <img src="img/eltenedor.jpg" alt="comida" style="padding-top: 110px; width:45%">
-            </div>   
+        <div>
+            <img src="img/eltenedor.jpg" alt="comida" style="padding-top: 110px; width:45%">
+        </div>   
     </div>
-    </body>
     
 
     <footer>

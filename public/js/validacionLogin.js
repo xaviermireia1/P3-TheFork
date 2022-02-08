@@ -51,8 +51,8 @@ function loginValidate() {
             icon: 'error',
             title: 'Email vacío',
             text: 'Por favor introduce el email',
-            showConfirmButton: true,
-            timer: 4000,
+            showConfirmButton: false,
+            timer: 2200,
             timerProgressBar: false
         });
         return false;
@@ -61,8 +61,8 @@ function loginValidate() {
             icon: 'error',
             title: 'Password vacío',
             text: 'Por favor introduce el password para iniciar sesion',
-            showConfirmButton: true,
-            timer: 4000,
+            showConfirmButton: false,
+            timer: 2200,
             timerProgressBar: false
         });
         return false;

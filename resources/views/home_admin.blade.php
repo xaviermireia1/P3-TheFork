@@ -22,6 +22,7 @@
 </head>
 
 <body>
+
     <header>
         <div class="row" id="section1">
             <div class="one-column-s1">
@@ -79,8 +80,8 @@
                             <p>{{$restaurant->direccion}}</p>
                         </div>   
                         <div class="three-column-res">
-                            <input type="button" value="Editar">
-                            <input type="button" value="Eliminar">
+                            <button onclick="window.location.href='{{url('home-adm/update/'.$restaurant->id)}}'">Actualizar Restaurante</button>
+                            <button onclick="window.location.href='{{url('home-adm/delete/'.$restaurant->id)}}'">Eliminar Restaurante</button>
                         </div>
                     </div>
                 @endforeach

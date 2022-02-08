@@ -47,31 +47,32 @@ function filtro() {
             var respuesta = JSON.parse(this.responseText);
             //Varible para recargar la pagina
             var recarga = '';
+            console.log(respuesta.length);
             if (respuesta.length == 0) {
-                recarga += '<h1>No se han encontrado restaurantes</h1>'
+                recarga += '<h1>No se han encontrado restaurantes</h1>';
             } else {
                 //Reconstruimos la pagina
-                recarga += '<tr>';
-                recarga += '<th>Nombre</th>';
-                recarga += '<th>Direccion</th>';
-                recarga += '<th>Tipo_cocina</th>';
-                recarga += '<th>Imagen general</th>';
-                recarga += '<th>Cantidad likes</th>';
-                recarga += '<th>Precio medio</th>';
-                recarga += '</tr>';
+                recarga += '<div class="one-column-res">';
                 for (let i = 0; i < respuesta.length; i++) {
-                    recarga += '<tr>';
-                    recarga += '<td>' + respuesta[i].nombre + '</td>';
-                    recarga += '<td>' + respuesta[i].direccion + '</td>';
-                    recarga += '<td>' + respuesta[i].tipo_cocina + '</td>';
-                    recarga += '<td><img src="storage/' + respuesta[i].imagen_general + '"></td>';
+                    let url = 'home/restaurant/' + respuesta[i].id;
+                    recarga += `<div class="box-res" onclick="window.location.href='` + url + `'">`;
+                    recarga += `<div class="three-column-res">`;
+                    recarga += `<img width="276px" height="216px" src="storage/` + respuesta[i].imagen_general + `">`;
+                    recarga += `</div>`;
+                    recarga += '<div class="three-column-res">';
+                    recarga += '<p>' + respuesta[i].tipo_cocina + '</p>';
+                    recarga += '<p>' + respuesta[i].nombre + '</p>';
+                    recarga += '<p>' + respuesta[i].direccion + '</p>';
+                    recarga += '<p style="color: rgb(212, 0, 0)">Precio medio: ' + respuesta[i].precio_medio + '€</p>';
+                    recarga += `</div>`;
+                    recarga += '<div class="three-column-res">';
                     if (respuesta[i].likes == null) {
-                        recarga += '<td>0</td>';
+                        recarga += '<p style="font-size: 20px">0 <i class="fas fa-heart"></i></p>';
                     } else {
-                        recarga += '<td>' + respuesta[i].likes + '</td>';
+                        recarga += '<p style="font-size: 20px">' + respuesta[i].likes + '<i class="fas fa-heart" style="color: red"></i></p>';
                     }
-                    recarga += '<td>' + respuesta[i].precio_medio + '</td>';
-                    recarga += '</tr>';
+                    recarga += `</div>`;
+                    recarga += `</div>`;
                 }
             }
             restaurantContent.innerHTML = recarga;
