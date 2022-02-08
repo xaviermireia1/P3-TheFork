@@ -293,7 +293,6 @@ class RestauranteController extends Controller
             'tipo_cocina' => 'required|string|max:200',
             'precio_medio' => 'required|between:0,99.99',
         ]);
-        return $request;
         try {
             DB::beginTransaction();
             //Query de actualización de datos en tbl_restaurante
