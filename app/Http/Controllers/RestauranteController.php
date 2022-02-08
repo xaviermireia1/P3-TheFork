@@ -485,7 +485,9 @@ class RestauranteController extends Controller
     }
     //Funcion para agregar foto
     public function addImage(Request $request){
-        //return $request;
+        $request->validate([
+            'imagen' =>'required|mimes:jpg,png,jpeg,webp,svg'
+        ]); 
         if ($request->input('rowName')=="imagen_general") {
             $datos['imagen_general'] = $request->file('imagen')->store('uploads','public');
             DB::update("UPDATE tbl_imagen SET imagen_general=? WHERE id=?",[$datos['imagen_general'],$request->input('id')]);
@@ -506,14 +508,88 @@ class RestauranteController extends Controller
             DB::update("UPDATE tbl_imagen SET imagen4=? WHERE id=?",[$datos['imagen4'],$request->input('id')]);
         }
         return redirect('home_admin/restaurant_admin/'.$request->input('id'));
+        //return $request;
     }
     //Funcion para eliminar foto
     public function delImage(Request $request){
-        return $request;
+        if ($request->input('rowName')=="imagen_general") {
+            $ruta = 'storage/'.$request->input('file');
+            if (file_exists($ruta) == true){
+                Storage::delete('public/'.$request->input('file')); 
+            }
+            DB::update("UPDATE tbl_imagen SET imagen_general=? WHERE id=?",[null,$request->input('id')]); 
+
+        }elseif ($request->input('rowName')=="imagen1") {
+            $ruta = 'storage/'.$request->input('file');
+            if (file_exists($ruta) == true){
+                Storage::delete('public/'.$request->input('file')); 
+            }
+            DB::update("UPDATE tbl_imagen SET imagen1=? WHERE id=?",[null,$request->input('id')]); 
+        }elseif ($request->input('rowName')=="imagen2") {
+            $ruta = 'storage/'.$request->input('file');
+            if (file_exists($ruta) == true){
+                Storage::delete('public/'.$request->input('file')); 
+            }
+            DB::update("UPDATE tbl_imagen SET imagen2=? WHERE id=?",[null,$request->input('id')]); 
+        }elseif ($request->input('rowName')=="imagen3") {
+            $ruta = 'storage/'.$request->input('file');
+            if (file_exists($ruta) == true){
+                Storage::delete('public/'.$request->input('file')); 
+            }
+            DB::update("UPDATE tbl_imagen SET imagen3=? WHERE id=?",[null,$request->input('id')]); 
+
+        }elseif ($request->input('rowName')=="imagen4") {
+            $ruta = asset('storage/'.$request->input('file'));
+            if (file_exists($ruta) == true){
+                Storage::delete('public/'.$request->input('file')); 
+            }
+            DB::update("UPDATE tbl_imagen SET imagen4=? WHERE id=?",[null,$request->input('id')]); 
+        }
+        return redirect('home_admin/restaurant_admin/'.$request->input('id'));
     }
     //Funcion para cambiar foto
     public function changeImage(Request $request){
-        return $request;
+        $request->validate([
+            'imagen' =>'required|mimes:jpg,png,jpeg,webp,svg'
+        ]); 
+        if ($request->input('rowName')=="imagen_general") {
+            $ruta = 'storage/'.$request->input('file');
+            if (file_exists($ruta) == true){
+                Storage::delete('public/'.$request->input('file')); 
+            }
+            $datos['imagen_general'] = $request->file('imagen')->store('uploads','public');
+            DB::update("UPDATE tbl_imagen SET imagen_general=? WHERE id=?",[$datos['imagen_general'],$request->input('id')]); 
+        }elseif ($request->input('rowName')=="imagen1") {
+            $ruta = 'storage/'.$request->input('file');
+            if (file_exists($ruta) == true){
+                Storage::delete('public/'.$request->input('file')); 
+            }
+            $datos['imagen1'] = $request->file('imagen')->store('uploads','public');
+            DB::update("UPDATE tbl_imagen SET imagen1=? WHERE id=?",[$datos['imagen1'],$request->input('id')]); 
+        }elseif ($request->input('rowName')=="imagen2") {
+            $ruta = 'storage/'.$request->input('file');
+            if (file_exists($ruta) == true){
+                Storage::delete('public/'.$request->input('file')); 
+            }
+            $datos['imagen2'] = $request->file('imagen')->store('uploads','public');
+            DB::update("UPDATE tbl_imagen SET imagen2=? WHERE id=?",[$datos['imagen2'],$request->input('id')]); 
+        }elseif ($request->input('rowName')=="imagen3") {
+            $ruta = 'storage/'.$request->input('file');
+            if (file_exists($ruta) == true){
+                Storage::delete('public/'.$request->input('file')); 
+            }
+            $datos['imagen3'] = $request->file('imagen')->store('uploads','public');
+            DB::update("UPDATE tbl_imagen SET imagen3=? WHERE id=?",[$datos['imagen3'],$request->input('id')]); 
+
+        }elseif ($request->input('rowName')=="imagen4") {
+            $ruta = asset('storage/'.$request->input('file'));
+            if (file_exists($ruta) == true){
+                Storage::delete('public/'.$request->input('file')); 
+            }
+            $datos['imagen4'] = $request->file('imagen')->store('uploads','public');
+            DB::update("UPDATE tbl_imagen SET imagen4=? WHERE id=?",[$datos['imagen4'],$request->input('id')]); 
+        }
+        return redirect('home_admin/restaurant_admin/'.$request->input('id'));
     }
 
         //Funcion parair a vista restaurante cliente
@@ -535,5 +611,4 @@ class RestauranteController extends Controller
             //return $valoraciones;
             return view("restaurant",compact("restaurant","valoraciones"));
         }
-
 }
