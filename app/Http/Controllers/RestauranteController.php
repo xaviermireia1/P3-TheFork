@@ -612,4 +612,20 @@ class RestauranteController extends Controller
         //return $valoraciones;
         return view("restaurant",compact("restaurant","valoraciones"));
     }
+
+    public function addValoracion(Request $request){
+        $user=session("email");
+        $idres=$request->input("id");
+        $iduser=DB::select("SELECT id FROM tbl_usuario WHERE email = '$user'");
+        $iduser =$iduser[0]->id;
+        $existcommentUser=DB::select("SELECT tbl_valoracion.*,tbl_usuario.* FROM tbl_valoracion
+        INNER JOIN tbl_usuario ON tbl_valoracion.id_usuario_fk=tbl_usuario.id
+        where tbl_usuario.email='$user' AND tbl_valoracion.id_restaurante_fk = $idres");
+        if (count($existcommentUser) == 0) {
+            DB::insert("INSERT INTO tbl_valoracion (valoracion,comentario,id_restaurante_fk,id_usuario_fk) VALUES (?,?,?,?)",[$request->input("valoracion"),$request->input("comentario"),$idres,$iduser]);
+            return redirect("home/restaurant/".$idres);
+        }else{
+            return redirect("home/restaurant/".$idres);
+        }
+    }
 }

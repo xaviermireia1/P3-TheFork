@@ -68,6 +68,27 @@ a:active {
     float: left;
 }
 
+.one-column-res label {
+    float: left;
+    margin: 4px;
+    border-radius: 4px;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.one-column-res label i {
+    text-align: center;
+    font-size: 30px;
+    padding: 3px 0px;
+    display: block;
+}
+
+.one-column-res label input[type="radio"] {
+    position: absolute;
+    height: 2em;
+    opacity: 0;
+}
+
 .valoraciones {
     border-bottom: 1.8px solid rgba(0, 0, 0, 0.219);
     padding-top: 5px;

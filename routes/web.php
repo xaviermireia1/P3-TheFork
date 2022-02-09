@@ -74,5 +74,5 @@ Route::get('ayuda2',[RestauranteController::class,'ayuda2']);
 //Proceso logout
 Route::get('logout',[RestauranteController::class,'logout']);
 
-
-Route::get('home/restaurant/slider/{id}',[RestauranteController::class,'slider']);
+//Proceso añadir valoracion
+Route::post('addValoracion',[RestauranteController::class,'addValoracion']);
