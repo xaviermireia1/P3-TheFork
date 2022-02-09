@@ -69,7 +69,7 @@ function filtro() {
                     if (respuesta[i].likes == 0) {
                         recarga += '<p style="font-size: 20px">0 <i class="fas fa-heart"></i></p>';
                     } else {
-                        recarga += '<p style="font-size: 20px">' + respuesta[i].likes + '<i class="fas fa-heart" style="color: red"></i></p>';
+                        recarga += '<p style="font-size: 20px">' + respuesta[i].likes + ' <i class="fas fa-heart" style="color: red"></i></p>';
                     }
                     recarga += `</div>`;
                     recarga += `</div>`;
