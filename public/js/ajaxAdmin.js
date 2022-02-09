@@ -47,7 +47,7 @@ function filtro() {
                 //Reconstruimos la pagina
                 recarga += '<div class="one-column-res">';
                 for (let i = 0; i < respuesta.length; i++) {
-                    let urlRest = 'home-adm/restaurant_admin/' + respuesta[i].id;
+                    let urlRest = 'home_admin/restaurant_admin/' + respuesta[i].id;
                     let urlUpd = 'home-adm/update/' + respuesta[i].id;
                     let urlDel = 'home-adm/delete/' + respuesta[i].id;
                     recarga += `<div class="box-res">`;
