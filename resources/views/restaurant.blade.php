@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <title>TheFork</title>
+    <script src="../../js/restaurant.js"></script>
     <link rel="shortcut icon" href="../../../public/img/icono.png">
 </head>
 <body>
@@ -66,31 +67,31 @@
                 <div class="one-column-res">
                     @if ($result->imagen_general!=NULL)
                         @if(file_exists('storage/'.$result->imagen_general))
-                            <img width="300px" height="200px" src="{{asset('storage').'/'.$result->imagen_general}}">
+                            <img class="modalImg" width="300px" height="200px" src="{{asset('storage').'/'.$result->imagen_general}}">
                         @endif
                     @endif
 
                     @if ($result->imagen1!=NULL)
                         @if(file_exists('storage/'.$result->imagen1))
-                            <img width="300px" height="200px" src="{{asset('storage').'/'.$result->imagen1}}">
+                            <img class="modalImg" width="300px" height="200px" src="{{asset('storage').'/'.$result->imagen1}}">
                         @endif
                     @endif
                     
                     @if ($result->imagen2!=NULL)
                         @if(file_exists('storage/'.$result->imagen2))
-                            <img width="300px" height="200px" src="{{asset('storage').'/'.$result->imagen2}}">
+                            <img class="modalImg" width="300px" height="200px" src="{{asset('storage').'/'.$result->imagen2}}">
                         @endif
                     @endif
                     
                     @if ($result->imagen3!=NULL)
                         @if(file_exists('storage/'.$result->imagen3))
-                            <img width="300px" height="200px" src="{{asset('storage').'/'.$result->imagen3}}">
+                            <img class="modalImg" width="300px" height="200px" src="{{asset('storage').'/'.$result->imagen3}}">
                         @endif
                     @endif
                     
                     @if ($result->imagen4!=NULL)
                         @if(file_exists('storage/'.$result->imagen4))
-                            <img width="300px" height="200px" src="{{asset('storage').'/'.$result->imagen4}}">
+                            <img class="modalImg" width="300px" height="200px" src="{{asset('storage').'/'.$result->imagen4}}">
                         @endif
                     @endif
                 </div>
@@ -103,7 +104,7 @@
                 <div class="one-column-res">
                     <h2 style="border-bottom: 1.8px solid rgba(0, 0, 0, 0.459)">Danos tu opinión</h2>
                     <form action="">
-                        <textarea type="text" name="comentario" cols="134" rows="10" style="resize: none"></textarea>
+                        <textarea type="text" name="comentario" rows="10" style="resize: none"></textarea>
                         <br>
                         <br>
                         <input type="radio" name="valoracion" value="like">
