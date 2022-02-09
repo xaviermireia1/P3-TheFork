@@ -36,6 +36,15 @@ Route::get('home-adm/update/{id}',[RestauranteController::class,'edit']);
 //Proceso update
 Route::put('home-adm/update-proc',[RestauranteController::class,'update']);
 
+//Entrar pagina restaurante admin para modificar foto
+Route::get('home_admin/restaurant_admin/{id}',[RestauranteController::class,'restaurantADM']);
+
+//Proceso de agregar Imagen
+Route::put('addImage',[RestauranteController::class,'addImage']);
+//Proceso de cambiar Imagen
+Route::put('updImage',[RestauranteController::class,'changeImage']);
+//Proceso de Eliminar Imagen
+Route::put('delImage',[RestauranteController::class,'delImage']);
 //----------------------------Rutas Clientes-------------------------------
 
 //Login

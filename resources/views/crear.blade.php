@@ -12,6 +12,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/style_crear.css">
+    <!--Alertify-->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.rtl.min.css"/>
+     <!---------->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;500&display=swap" rel="stylesheet">
@@ -20,7 +25,15 @@
     <link rel="shortcut icon" href="../public/img/icono.png">
 </head>
 <body>
-
+    {{-- Campos cogidos del validate --}}
+    {{-- @error('nombre', 'direccion', 'correo') --}}{{--  o para cogerlos todos  --}}
+    @if($errors->any())
+        <script>
+            window.onload = function(){
+                alertify.error("Rellene los campos correctamente");
+            }
+        </script>
+    @endif
     <header>
         <div class="row" id="section1">
             <div class="one-column-s1">
@@ -79,7 +92,7 @@
                   </select>
                   <br>
                   <span>Precio medio</span>
-                      <input type="number" name="precio_medio">
+                      <input type="number" step="any" name="precio_medio">
                       <br>
                   <span>Imagen</span>
                       <input type="file" name="imagen_general">

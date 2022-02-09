@@ -68,7 +68,7 @@ class RestauranteController extends Controller
             'direccion' => 'required|string|max:100',
             'correo_responsable' => 'required|string|max:70|email',
             'tipo_cocina' => 'required|string|max:200',
-            'precio_medio' => 'required|int',
+            'precio_medio' => 'required|between:0,99.99',
             //Tiene que estar el enctype en el formulario!!!!
             'imagen_general' =>'required|mimes:jpg,png,jpeg,webp,svg'
         ]); 
@@ -286,13 +286,13 @@ class RestauranteController extends Controller
         //Quitamos el token y el método
         $datas = $request->except('_token', '_method');
         //Verificamos los datos a actualizar
-        /*$request->validate([
+        $request->validate([
             'nombre' => 'required|string|max:150',
             'direccion' => 'required|string|max:100',
             'correo_responsable' => 'required|string|max:70|email',
             'tipo_cocina' => 'required|string|max:200',
-            'precio_medio' => 'required|int',
-        ]);*/
+            'precio_medio' => 'required|between:0,99.99',
+        ]);
 
         try {
             DB::beginTransaction();
@@ -475,18 +475,124 @@ class RestauranteController extends Controller
         $request->session()->flush();
         return redirect('/');
     }
-    //Funcion para agregar foto
-    public function addImage($idRes){
 
+    //Vista restaurante admin
+    public function restaurantADM($id){
+        $restaurant=DB::select("SELECT rest.id as idrest,rest.nombre,rest.direccion,rest.descripcion,img.*
+        FROM tbl_restaurante rest 
+        INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
+        where rest.id = $id");
+        return view("restaurant_admin",compact("restaurant"));
+    }
+    //Funcion para agregar foto
+    public function addImage(Request $request){
+        $request->validate([
+            'imagen' =>'required|mimes:jpg,png,jpeg,webp,svg'
+        ]); 
+        if ($request->input('rowName')=="imagen_general") {
+            $datos['imagen_general'] = $request->file('imagen')->store('uploads','public');
+            DB::update("UPDATE tbl_imagen SET imagen_general=? WHERE id=?",[$datos['imagen_general'],$request->input('id')]);
+        }elseif ($request->input('rowName')=="imagen1") {
+            $datos['imagen1'] = $request->file('imagen')->store('uploads','public');
+            DB::update("UPDATE tbl_imagen SET imagen1=? WHERE id=?",[$datos['imagen1'],$request->input('id')]);
+
+        }elseif ($request->input('rowName')=="imagen2") {
+            $datos['imagen2'] = $request->file('imagen')->store('uploads','public');
+            DB::update("UPDATE tbl_imagen SET imagen2=? WHERE id=?",[$datos['imagen2'],$request->input('id')]);
+
+        }elseif ($request->input('rowName')=="imagen3") {
+            $datos['imagen3'] = $request->file('imagen')->store('uploads','public');
+            DB::update("UPDATE tbl_imagen SET imagen3=? WHERE id=?",[$datos['imagen3'],$request->input('id')]);
+
+        }elseif ($request->input('rowName')=="imagen4") {
+            $datos['imagen4'] = $request->file('imagen')->store('uploads','public');
+            DB::update("UPDATE tbl_imagen SET imagen4=? WHERE id=?",[$datos['imagen4'],$request->input('id')]);
+        }
+        return redirect('home_admin/restaurant_admin/'.$request->input('id'));
+        //return $request;
     }
     //Funcion para eliminar foto
-    public function delImage($idImg){
+    public function delImage(Request $request){
+        if ($request->input('rowName')=="imagen_general") {
+            $ruta = 'storage/'.$request->input('file');
+            if (file_exists($ruta) == true){
+                Storage::delete('public/'.$request->input('file')); 
+            }
+            DB::update("UPDATE tbl_imagen SET imagen_general=? WHERE id=?",[null,$request->input('id')]); 
 
+        }elseif ($request->input('rowName')=="imagen1") {
+            $ruta = 'storage/'.$request->input('file');
+            if (file_exists($ruta) == true){
+                Storage::delete('public/'.$request->input('file')); 
+            }
+            DB::update("UPDATE tbl_imagen SET imagen1=? WHERE id=?",[null,$request->input('id')]); 
+        }elseif ($request->input('rowName')=="imagen2") {
+            $ruta = 'storage/'.$request->input('file');
+            if (file_exists($ruta) == true){
+                Storage::delete('public/'.$request->input('file')); 
+            }
+            DB::update("UPDATE tbl_imagen SET imagen2=? WHERE id=?",[null,$request->input('id')]); 
+        }elseif ($request->input('rowName')=="imagen3") {
+            $ruta = 'storage/'.$request->input('file');
+            if (file_exists($ruta) == true){
+                Storage::delete('public/'.$request->input('file')); 
+            }
+            DB::update("UPDATE tbl_imagen SET imagen3=? WHERE id=?",[null,$request->input('id')]); 
+
+        }elseif ($request->input('rowName')=="imagen4") {
+            $ruta = asset('storage/'.$request->input('file'));
+            if (file_exists($ruta) == true){
+                Storage::delete('public/'.$request->input('file')); 
+            }
+            DB::update("UPDATE tbl_imagen SET imagen4=? WHERE id=?",[null,$request->input('id')]); 
+        }
+        return redirect('home_admin/restaurant_admin/'.$request->input('id'));
     }
     //Funcion para cambiar foto
-    public function changeImage($idImg){
+    public function changeImage(Request $request){
+        $request->validate([
+            'imagen' =>'required|mimes:jpg,png,jpeg,webp,svg'
+        ]); 
+        if ($request->input('rowName')=="imagen_general") {
+            $ruta = 'storage/'.$request->input('file');
+            if (file_exists($ruta) == true){
+                Storage::delete('public/'.$request->input('file')); 
+            }
+            $datos['imagen_general'] = $request->file('imagen')->store('uploads','public');
+            DB::update("UPDATE tbl_imagen SET imagen_general=? WHERE id=?",[$datos['imagen_general'],$request->input('id')]); 
+        }elseif ($request->input('rowName')=="imagen1") {
+            $ruta = 'storage/'.$request->input('file');
+            if (file_exists($ruta) == true){
+                Storage::delete('public/'.$request->input('file')); 
+            }
+            $datos['imagen1'] = $request->file('imagen')->store('uploads','public');
+            DB::update("UPDATE tbl_imagen SET imagen1=? WHERE id=?",[$datos['imagen1'],$request->input('id')]); 
+        }elseif ($request->input('rowName')=="imagen2") {
+            $ruta = 'storage/'.$request->input('file');
+            if (file_exists($ruta) == true){
+                Storage::delete('public/'.$request->input('file')); 
+            }
+            $datos['imagen2'] = $request->file('imagen')->store('uploads','public');
+            DB::update("UPDATE tbl_imagen SET imagen2=? WHERE id=?",[$datos['imagen2'],$request->input('id')]); 
+        }elseif ($request->input('rowName')=="imagen3") {
+            $ruta = 'storage/'.$request->input('file');
+            if (file_exists($ruta) == true){
+                Storage::delete('public/'.$request->input('file')); 
+            }
+            $datos['imagen3'] = $request->file('imagen')->store('uploads','public');
+            DB::update("UPDATE tbl_imagen SET imagen3=? WHERE id=?",[$datos['imagen3'],$request->input('id')]); 
 
+        }elseif ($request->input('rowName')=="imagen4") {
+            $ruta = asset('storage/'.$request->input('file'));
+            if (file_exists($ruta) == true){
+                Storage::delete('public/'.$request->input('file')); 
+            }
+            $datos['imagen4'] = $request->file('imagen')->store('uploads','public');
+            DB::update("UPDATE tbl_imagen SET imagen4=? WHERE id=?",[$datos['imagen4'],$request->input('id')]); 
+        }
+        return redirect('home_admin/restaurant_admin/'.$request->input('id'));
     }
+
 
     //Funcion parair a vista restaurante cliente
     public function restaurantHome($id){
@@ -506,18 +612,4 @@ class RestauranteController extends Controller
         //return $valoraciones;
         return view("restaurant",compact("restaurant","valoraciones"));
     }
-
-    public function slider($id){
-        $restaurant=DB::select("SELECT rest.id,rest.nombre,rest.direccion,rest.descripcion,cook.tipo_cocina,img.*,sum(tbl_valoracion.valoracion) as likes,price.precio_medio
-        FROM tbl_restaurante rest 
-        INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
-        INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
-        LEFT JOIN tbl_valoracion ON tbl_valoracion.id_restaurante_fk=rest.id
-        LEFT JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
-        where rest.id = $id
-        group by rest.id, rest.nombre, img.id, img.imagen_general, img.imagen1, img.imagen2, img.imagen3, img.imagen4, rest.direccion, rest.descripcion, cook.tipo_cocina,price.precio_medio");
-        
-        return view("slider",compact("restaurant"));
-    }
-
 }
