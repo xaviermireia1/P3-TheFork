@@ -20,6 +20,13 @@ body {
 
 /* CLASES HEADER */
 
+.one-column-s1-l {
+    float: left;
+    padding-left: 25px;
+    text-decoration: none;
+    color: hsl(104, 38%, 42%);
+}
+
 .one-column-s1 {
     float: right;
     padding-right: 15px;
@@ -48,6 +55,117 @@ a:active {
 
 
 /* CONTENIDO */
+
+.foto {
+    width: 100%;
+    padding: 8px 16px;
+    margin-top: 32px;
+    color: #fff;
+    border-radius: 5px;
+    background-color: #3c4048;
+}
+
+.eliminar {
+    width: 100%;
+    padding: 8px 16px;
+    margin-top: 32px;
+    color: #fff;
+    border-radius: 5px;
+    background-color: rgb(187, 21, 21);
+}
+
+.eliminar:hover {
+    cursor: pointer;
+    background-color: rgb(141, 17, 17);
+}
+
+.change {
+    width: 100%;
+    padding: 8px 16px;
+    margin-top: 32px;
+    color: #fff;
+    border-radius: 5px;
+    background-color: rgb(21, 154, 187);
+}
+
+.change:hover {
+    cursor: pointer;
+    background-color: rgb(15, 112, 136);
+}
+
+.añadir {
+    width: 100%;
+    padding: 8px 16px;
+    margin-top: 32px;
+    color: #fff;
+    border-radius: 5px;
+    background-color: rgb(88, 148, 66);
+}
+
+.añadir:hover {
+    cursor: pointer;
+    background-color: rgb(59, 100, 45);
+}
+
+
+/* MODAL */
+
+.modalImg {
+    cursor: pointer;
+    max-height: 200px;
+}
+
+.imodalImg:hover {
+    opacity: 0.8;
+}
+
+.modal {
+    display: none;
+    /* ocultar por defecto */
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    border: solid 1px;
+    background: rgba(0, 0, 0, 0.9);
+    padding-top: 5%;
+    overflow: hidden;
+}
+
+#modalImg {
+    display: block;
+    position: fixed;
+    width: 60%;
+    height: 70%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#modalClose {
+    position: absolute;
+    cursor: pointer;
+    top: 30px;
+    right: 50px;
+    color: #fff;
+    transition: all;
+    font-weight: bold;
+    font-size: 5rem;
+}
+
+
+/* animaciones */
+
+@keyframes zoom {
+    from {
+        transform: scale(0)
+    }
+    to {
+        transform: scale(1)
+    }
+}
 
 
 /* CLASES DE COLUMNAS FOOTER */

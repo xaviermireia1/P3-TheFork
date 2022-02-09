@@ -96,7 +96,7 @@
                         </div>
 
                         <div class="three-column-res">
-                            @if ($restaurant->likes == null)
+                            @if ($restaurant->likes == 0)
                                 <p style="font-size: 20px">0 <i class="fas fa-heart"></i></p>
                                 
                             @else

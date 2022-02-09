@@ -17,6 +17,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <title>TheFork</title>
+    <script src="../../js/restaurant.js"></script>
     <link rel="shortcut icon" href="../../../public/img/icono.png">
 </head>
 <body>
@@ -24,6 +25,11 @@
     
     <header>
         <div class="row" id="section1">
+            <div class="one-column-s1-l">
+                <a>
+                    <p onclick="history.back()" style="cursor: pointer">Back</p>
+                </a>
+            </div>
             <div class="one-column-s1">
                 <a href="{{ url('ayuda2')}}">
                     <p><b style="padding-right: 10px;" onclick="">AYUDA</b></p>
@@ -50,6 +56,8 @@
             }
         </script>
     @enderror
+    <br>
+    <br>
     <table>
         <tr>
             <th>Imagen principal</th>
@@ -58,13 +66,14 @@
             <th>Imagen 3</th>
             <th>Imagen 4</th>
         </tr>
+
         @foreach ($restaurant as $result)
         <tr>
-            <td><img src="{{asset('storage').'/'.$result->imagen_general}}" width="120"></td>
-            <td><img src="{{asset('storage').'/'.$result->imagen1}}" width="120"></td>
-            <td><img src="{{asset('storage').'/'.$result->imagen2}}" width="120"></td>
-            <td><img src="{{asset('storage').'/'.$result->imagen3}}" width="120"></td>
-            <td><img src="{{asset('storage').'/'.$result->imagen4}}" width="120"></td>
+            <td><img src="{{asset('storage').'/'.$result->imagen_general}}" width="300px" height="250px" class="modalImg"></td>
+            <td><img src="{{asset('storage').'/'.$result->imagen1}}" width="300px" height="250px" class="modalImg"></td>
+            <td><img src="{{asset('storage').'/'.$result->imagen2}}" width="300px" height="250px" class="modalImg"></td>
+            <td><img src="{{asset('storage').'/'.$result->imagen3}}" width="300px" height="250px" class="modalImg"></td>
+            <td><img src="{{asset('storage').'/'.$result->imagen4}}" width="300px" height="250px" class="modalImg"></td>
         </tr>
         <tr>
             <td>
@@ -72,8 +81,8 @@
                     <form action="{{url('addImage')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         {{method_field('PUT')}}
-                        <input type="file" name="imagen">
-                        <input type="submit" value="Añadir Imagen">
+                        <input type="file" name="imagen" class="foto" >
+                        <input type="submit" value="Añadir Imagen" class="añadir">
                         <input type="hidden" name="rowName" value="imagen_general">
                         <input type="hidden" name="id" value="{{$result->id}}">
                     </form>
@@ -81,8 +90,8 @@
                 <form action="{{url('updImage')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     {{method_field('PUT')}}
-                    <input type="file" name="imagen">
-                    <input type="submit" value="Cambiar Imagen">
+                    <input type="file" name="imagen" class="foto">
+                    <input type="submit" value="Cambiar Imagen" class="change">
                     <input type="hidden" name="rowName" value="imagen_general">
                     <input type="hidden" name="file" value="{{$result->imagen_general}}">
                     <input type="hidden" name="id" value="{{$result->id}}">
@@ -90,7 +99,7 @@
                 <form action="{{url('delImage')}}" method="post">
                     @csrf
                     {{method_field('PUT')}}
-                    <input type="submit" value="Eliminar Imagen">
+                    <input type="submit" value="Eliminar Imagen" class="eliminar">
                     <input type="hidden" name="file" value="{{$result->imagen_general}}">
                     <input type="hidden" name="rowName" value="imagen_general">
                     <input type="hidden" name="id" value="{{$result->id}}">
@@ -102,8 +111,8 @@
                     <form action="{{url('addImage')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         {{method_field('PUT')}}
-                        <input type="file" name="imagen">
-                        <input type="submit" value="Añadir Imagen">
+                        <input type="file" name="imagen" class="foto" >
+                        <input type="submit" value="Añadir Imagen" class="añadir">
                         <input type="hidden" name="rowName" value="imagen1">
                         <input type="hidden" name="id" value="{{$result->id}}">
                     </form>
@@ -111,16 +120,16 @@
                 <form action="{{url('updImage')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     {{method_field('PUT')}}
-                    <input type="file" name="imagen">
+                    <input type="file" name="imagen" class="foto">
                     <input type="hidden" name="rowName" value="imagen1">
-                    <input type="submit" value="Cambiar Imagen">
+                    <input type="submit" value="Cambiar Imagen" class="change">
                     <input type="hidden" name="file" value="{{$result->imagen1}}">
                     <input type="hidden" name="id" value="{{$result->id}}">
                 </form>
                 <form action="{{url('delImage')}}" method="post">
                     @csrf
                     {{method_field('PUT')}}
-                    <input type="submit" value="Eliminar Imagen">
+                    <input type="submit" value="Eliminar Imagen" class="eliminar">
                     <input type="hidden" name="rowName" value="imagen1">
                     <input type="hidden" name="file" value="{{$result->imagen1}}">
                     <input type="hidden" name="id" value="{{$result->id}}">
@@ -132,25 +141,25 @@
                     <form action="{{url('addImage')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         {{method_field('PUT')}}
-                        <input type="file" name="imagen">
+                        <input type="file" name="imagen" class="foto" >
                         <input type="hidden" name="rowName" value="imagen2">
-                        <input type="submit" value="Añadir Imagen">
+                        <input type="submit" value="Añadir Imagen" class="añadir">
                         <input type="hidden" name="id" value="{{$result->id}}">
                     </form>
                 @else
                 <form action="{{url('updImage')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     {{method_field('PUT')}}
-                    <input type="file" name="imagen">
+                    <input type="file" name="imagen" class="foto">
                     <input type="hidden" name="rowName" value="imagen2">
-                    <input type="submit" value="Cambiar Imagen">
+                    <input type="submit" value="Cambiar Imagen" class="change">
                     <input type="hidden" name="file" value="{{$result->imagen2}}">
                     <input type="hidden" name="id" value="{{$result->id}}">
                 </form>
                 <form action="{{url('delImage')}}" method="post">
                     @csrf
                     {{method_field('PUT')}}
-                    <input type="submit" value="Eliminar Imagen">
+                    <input type="submit" value="Eliminar Imagen" class="eliminar">
                     <input type="hidden" name="file" value="{{$result->imagen2}}">
                     <input type="hidden" name="rowName" value="imagen2">
                     <input type="hidden" name="id" value="{{$result->id}}">
@@ -162,17 +171,17 @@
                     <form action="{{url('addImage')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         {{method_field('PUT')}}
-                        <input type="file" name="imagen">
+                        <input type="file" name="imagen" class="foto" >
                         <input type="hidden" name="rowName" value="imagen3">
-                        <input type="submit" value="Añadir Imagen">
+                        <input type="submit" value="Añadir Imagen" class="añadir">
                         <input type="hidden" name="id" value="{{$result->id}}">
                     </form>
                 @else
                 <form action="{{url('updImage')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     {{method_field('PUT')}}
-                    <input type="file" name="imagen">
-                    <input type="submit" value="Cambiar Imagen">
+                    <input type="file" name="imagen" class="foto">
+                    <input type="submit" value="Cambiar Imagen" class="change">
                     <input type="hidden" name="rowName" value="imagen3">
                     <input type="hidden" name="file" value="{{$result->imagen3}}">
                     <input type="hidden" name="id" value="{{$result->id}}">
@@ -180,7 +189,7 @@
                 <form action="{{url('delImage')}}" method="post">
                     @csrf
                     {{method_field('PUT')}}
-                    <input type="submit" value="Eliminar Imagen">
+                    <input type="submit" value="Eliminar Imagen" class="eliminar">
                     <input type="hidden" name="rowName" value="imagen3">
                     <input type="hidden" name="file" value="{{$result->imagen3}}">
                     <input type="hidden" name="id" value="{{$result->id}}">
@@ -192,8 +201,8 @@
                     <form action="{{url('addImage')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         {{method_field('PUT')}}
-                        <input type="file" name="imagen">
-                        <input type="submit" value="Añadir Imagen">
+                        <input type="file" name="imagen" class="foto" >
+                        <input type="submit" value="Añadir Imagen" class="añadir">
                         <input type="hidden" name="rowName" value="imagen4">
                         <input type="hidden" name="id" value="{{$result->id}}">
                     </form>
@@ -201,8 +210,8 @@
                 <form action="{{url('updImage')}}" method="post" enctype="multipart/form-data">
                     @csrf
                     {{method_field('PUT')}}
-                    <input type="file" name="imagen">
-                    <input type="submit" value="Cambiar Imagen">
+                    <input type="file" name="imagen" class="foto">
+                    <input type="submit" value="Cambiar Imagen" class="change">
                     <input type="hidden" name="rowName" value="imagen4">
                     <input type="hidden" name="file" value="{{$result->imagen4}}">
                     <input type="hidden" name="id" value="{{$result->id}}">
@@ -210,7 +219,7 @@
                 <form action="{{url('delImage')}}" method="post">
                     @csrf
                     {{method_field('PUT')}}
-                    <input type="submit" value="Eliminar Imagen">
+                    <input type="submit" value="Eliminar Imagen" class="eliminar">
                     <input type="hidden" name="rowName" value="imagen4">
                     <input type="hidden" name="file" value="{{$result->imagen4}}">
                     <input type="hidden" name="id" value="{{$result->id}}">

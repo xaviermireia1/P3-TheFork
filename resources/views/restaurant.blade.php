@@ -29,6 +29,11 @@
 
     <header>
         <div class="row" id="section1">
+            <div class="one-column-s1-l">
+                <a>
+                    <p onclick="history.back()" style="cursor: pointer">Back</p>
+                </a>
+            </div>
             <div class="one-column-s1">
                 <a href="{{ url('ayuda2')}}">
                     <p><b style="padding-right: 10px;" onclick="">AYUDA</b></p>
@@ -55,7 +60,7 @@
             @foreach ($restaurant as $result)
 
                 <div class="one-column-res">
-                    @if ($result->likes == null)
+                    @if ($result->likes == 0)
                     <p style="font-size: 25px; float:right">0 <i class="fas fa-heart"></i></p>
                     
                 @else

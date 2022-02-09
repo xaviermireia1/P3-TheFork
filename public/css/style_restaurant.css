@@ -20,6 +20,13 @@ body {
 
 /* CLASES HEADER */
 
+.one-column-s1-l {
+    float: left;
+    padding-left: 25px;
+    text-decoration: none;
+    color: hsl(104, 38%, 42%);
+}
+
 .one-column-s1 {
     float: right;
     padding-right: 15px;
@@ -109,6 +116,9 @@ form input[type="submit"]:hover {
 textarea {
     width: 100%;
 }
+
+
+/* MODAL */
 
 .modalImg {
     cursor: pointer;
