@@ -72,9 +72,9 @@
         <div class="one-column-res">
             @if($restaurantlist != null)
                 @foreach ($restaurantlist as $restaurant)
-                    <div class="box-res">
+                    <div class="box-res" style="padding-left: 30px">
                         <div style="cursor: pointer" class="three-column-res" onclick="window.location.href='{{url('home_admin/restaurant_admin/'.$restaurant->id)}}'">
-                            <img width="276px" height="216px" src="{{asset('storage').'/'.$restaurant->imagen_general}}">
+                            <img width="400px" height="250px" src="{{asset('storage').'/'.$restaurant->imagen_general}}">
                         </div>
                         <div style="cursor: pointer" class="three-column-res" onclick="window.location.href='{{url('home_admin/restaurant_admin/'.$restaurant->id)}}'">
                             <p><b>{{$restaurant->nombre}}</b></p>

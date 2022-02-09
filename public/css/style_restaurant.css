@@ -58,20 +58,6 @@ a:active {
     top: 0;
 }
 
-.one-column-s4 {
-    padding: 20px 0px 10px 20vh;
-}
-
-.filtro {
-    padding: 20px 40px 20px 40px;
-}
-
-.filtro input,
-.filtro select {
-    padding: 10px;
-    border-radius: 3px;
-}
-
 .one-column-res {
     width: 100%;
     margin-top: 1.5rem;
@@ -82,22 +68,9 @@ a:active {
     float: left;
 }
 
-.box-res {
-    width: 100%;
-    margin: 10px;
-    border-top: 1.8px solid rgb(0, 0, 0);
-    padding: 40px 0px 40px 0px;
-    float: left;
-}
-
-.box-res:hover {
-    box-shadow: 2px 2px 8px 2px rgba(0, 0, 0, 0.2);
-}
-
-.three-column-res {
-    width: 33.33%;
-    float: left;
-    padding-left: 30px;
+.valoraciones {
+    border-bottom: 1.8px solid rgba(0, 0, 0, 0.219);
+    padding-top: 5px;
 }
 
 

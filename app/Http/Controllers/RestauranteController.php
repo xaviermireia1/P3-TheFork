@@ -286,13 +286,13 @@ class RestauranteController extends Controller
         //Quitamos el token y el método
         $datas = $request->except('_token', '_method');
         //Verificamos los datos a actualizar
-        $request->validate([
+        /*$request->validate([
             'nombre' => 'required|string|max:150',
             'direccion' => 'required|string|max:100',
             'correo_responsable' => 'required|string|max:70|email',
             'tipo_cocina' => 'required|string|max:200',
             'precio_medio' => 'required|int',
-        ]);
+        ]);*/
 
         try {
             DB::beginTransaction();
@@ -307,10 +307,10 @@ class RestauranteController extends Controller
             //Enviar correo al propietario
             $sub = "Modificación del restaurante: ".$request->input('nombre');
             $msj = "Buenas tardes,\r\n Su restaurante: ".$request->input('nombre')." Se ha modificado por nuestro administrador con el correo: ".session('email')."       
-            Los datos modificados se la siguiente manera: \r\n
+            Los datos se han modificado de la siguiente manera: \r\n
             Nombre:".$request->input('nombre')."\r\n
             Direccion: ".$request->input('direccion')."\r\n
-            Descripcion: ".$request->input('direccion')."\r\n
+            Descripcion: ".$request->input('descripcion')."\r\n
             Precio medio de la carta: ".$request->input('precio_medio')."
             \r\nCualquier inconveniente no dude en contactarnos. \r\n Atentamente el equipo de TheFork";
             $datos = array('message'=>$msj);
@@ -488,24 +488,36 @@ class RestauranteController extends Controller
 
     }
 
-        //Funcion parair a vista restaurante cliente
-        public function restaurantHome($id){
-            $restaurant=DB::select("SELECT rest.nombre,rest.direccion,rest.descripcion,cook.tipo_cocina,img.*,sum(tbl_valoracion.valoracion) as likes,price.precio_medio
-            FROM tbl_restaurante rest 
-            INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
-            INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
-            LEFT JOIN tbl_valoracion ON tbl_valoracion.id_restaurante_fk=rest.id
-            INNER JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
-            INNER JOIN tbl_usuario usuario ON tbl_valoracion.id_usuario_fk=usuario.id
-            where rest.id = $id
-            group by rest.nombre, img.id, img.imagen_general, img.imagen1, img.imagen2, img.imagen3, img.imagen4, rest.direccion, rest.descripcion, cook.tipo_cocina,price.precio_medio");
-            
-            $valoraciones=DB::select("SELECT tbl_valoracion.valoracion,tbl_valoracion.comentario,tbl_usuario.nombre
-            FROM tbl_valoracion 
-            INNER JOIN tbl_usuario ON tbl_valoracion.id_usuario_fk=tbl_usuario.id
-            where id_restaurante_fk = $id");
-            //return $valoraciones;
-            return view("restaurant",compact("restaurant","valoraciones"));
-        }
+    //Funcion parair a vista restaurante cliente
+    public function restaurantHome($id){
+        $restaurant=DB::select("SELECT rest.id,rest.nombre,rest.direccion,rest.descripcion,cook.tipo_cocina,img.*,sum(tbl_valoracion.valoracion) as likes,price.precio_medio
+        FROM tbl_restaurante rest 
+        INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
+        INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
+        LEFT JOIN tbl_valoracion ON tbl_valoracion.id_restaurante_fk=rest.id
+        LEFT JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
+        where rest.id = $id
+        group by rest.id, rest.nombre, img.id, img.imagen_general, img.imagen1, img.imagen2, img.imagen3, img.imagen4, rest.direccion, rest.descripcion, cook.tipo_cocina,price.precio_medio");
+        //return $restaurant;
+        $valoraciones=DB::select("SELECT tbl_valoracion.valoracion,tbl_valoracion.comentario,tbl_usuario.nombre
+        FROM tbl_valoracion 
+        INNER JOIN tbl_usuario ON tbl_valoracion.id_usuario_fk=tbl_usuario.id
+        where id_restaurante_fk = $id");
+        //return $valoraciones;
+        return view("restaurant",compact("restaurant","valoraciones"));
+    }
+
+    public function slider($id){
+        $restaurant=DB::select("SELECT rest.id,rest.nombre,rest.direccion,rest.descripcion,cook.tipo_cocina,img.*,sum(tbl_valoracion.valoracion) as likes,price.precio_medio
+        FROM tbl_restaurante rest 
+        INNER JOIN tbl_tipo_cocina cook ON rest.id_tipo_cocina=cook.id
+        INNER JOIN tbl_imagen img ON rest.id_imagen_fk=img.id
+        LEFT JOIN tbl_valoracion ON tbl_valoracion.id_restaurante_fk=rest.id
+        LEFT JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
+        where rest.id = $id
+        group by rest.id, rest.nombre, img.id, img.imagen_general, img.imagen1, img.imagen2, img.imagen3, img.imagen4, rest.direccion, rest.descripcion, cook.tipo_cocina,price.precio_medio");
+        
+        return view("slider",compact("restaurant"));
+    }
 
 }
