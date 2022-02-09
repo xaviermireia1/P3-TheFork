@@ -85,10 +85,10 @@
                 @foreach ($restaurantlist as $restaurant)
                     <div style="cursor: pointer" class="box-res" onclick="window.location.href='{{url('home/restaurant/'.$restaurant->id)}}'">
                         <div class="three-column-res">
-                            <img width="276px" height="216px" src="{{asset('storage').'/'.$restaurant->imagen_general}}">
+                            <img width="400px" height="250px" src="{{asset('storage').'/'.$restaurant->imagen_general}}">
                         </div>
 
-                        <div class="three-column-res">
+                        <div class="three-column-res" style="padding-left: 100px">
                             <p>{{$restaurant->tipo_cocina}}</p>
                             <p><b>{{$restaurant->nombre}}</b></p>
                             <p>{{$restaurant->direccion}}</p>
