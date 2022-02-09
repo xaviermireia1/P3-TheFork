@@ -98,13 +98,13 @@
                 <div class="one-column-res">
                     <h2 style="border-bottom: 1.8px solid rgba(0, 0, 0, 0.459)">Descripción</h2>
                     <p style="text-align:justify">{{$result->descripcion}}</p>
-                    <br>
                 </div>
 
                 <div class="one-column-res">
-                    <h2 style="border-bottom: 1.8px solid rgba(0, 0, 0, 0.459)">Danos tu opinion</h2>
+                    <h2 style="border-bottom: 1.8px solid rgba(0, 0, 0, 0.459)">Danos tu opinión</h2>
                     <form action="">
-                        <textarea type="text" name="comentario"></textarea>
+                        <textarea type="text" name="comentario" cols="134" rows="10" style="resize: none"></textarea>
+                        <br>
                         <br>
                         <input type="radio" name="valoracion" value="like">
                         <label for="like"><i class="far fa-smile" style="color: rgb(19, 160, 0)"></i></label>
@@ -112,7 +112,8 @@
                         <label for="dislike"><i class="far fa-frown" style="color: rgb(245, 0, 0)"></i></label>
                         <input type="hidden" name="id" value="{{$result->id}}">
                         <br>
-                        <input type="submit" value="Enviar">
+                        <br>
+                        <input type="submit" value="Enviar opinión">
                     </form>
                 </div>
 

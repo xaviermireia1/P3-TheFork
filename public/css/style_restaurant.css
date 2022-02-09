@@ -73,6 +73,18 @@ a:active {
     padding-top: 5px;
 }
 
+form input[type="submit"] {
+    padding: 6px 30px;
+    color: #fff;
+    border-radius: 5px;
+    background-color: rgb(88, 148, 66);
+}
+
+form input[type="submit"]:hover {
+    cursor: pointer;
+    background-color: rgb(59, 100, 45);
+}
+
 
 /* CLASES DE COLUMNAS FOOTER */
 
