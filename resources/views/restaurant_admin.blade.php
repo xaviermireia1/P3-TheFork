@@ -18,11 +18,11 @@
 </head>
 <body>
     @error('imagen')
-    <script>
-        window.onload = function(){
-            alertify.error("En las acciones insertar/modificar la imagen es obligatorio");
-        }
-    </script>
+        <script>
+            window.onload = function(){
+                alertify.error("En las acciones insertar/modificar la imagen es obligatoria");
+            }
+        </script>
     @enderror
     <table border="1">
         <tr>

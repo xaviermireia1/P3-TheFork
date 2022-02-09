@@ -8,10 +8,10 @@ function validarRegister() {
     if (nombre == "" || apellidos == "" || email == "" || password == "" || verifypass == "") {
         Swal.fire({
             icon: 'error',
-            title: 'Datos no rellenados',
+            title: 'Todos los campos son obligatorios, rellénemos correctamente',
             text: 'Todos los campos son obligatorios',
             showConfirmButton: false,
-            timer: 2200,
+            timer: 2300,
             timerProgressBar: true
         });
         return false;
@@ -34,7 +34,7 @@ function validarRegister() {
                 title: 'Contraseña incorrecta',
                 text: 'Una de las dos contraseñas no coinciden',
                 showConfirmButton: false,
-                timer: 2200,
+                timer: 2300,
                 timerProgressBar: true
             });
             return false;
@@ -52,7 +52,7 @@ function loginValidate() {
             title: 'Email vacío',
             text: 'Por favor introduce el email',
             showConfirmButton: false,
-            timer: 2200,
+            timer: 2300,
             timerProgressBar: false
         });
         return false;
@@ -62,7 +62,7 @@ function loginValidate() {
             title: 'Password vacío',
             text: 'Por favor introduce el password para iniciar sesion',
             showConfirmButton: false,
-            timer: 2200,
+            timer: 2300,
             timerProgressBar: false
         });
         return false;
