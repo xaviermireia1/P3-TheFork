@@ -14,6 +14,11 @@
     <link rel="stylesheet" href="../../css/style_restaurant.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <!--Alertify-->
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.rtl.min.css"/>
+    <!------------>
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <title>TheFork</title>
@@ -103,19 +108,52 @@
 
                 <div class="one-column-res">
                     <h2 style="border-bottom: 1.8px solid rgba(0, 0, 0, 0.459)">Danos tu opinión</h2>
-                    <form action="">
+                    <form action="{{url("addValoracion")}}" onsubmit="return validarValoracion();" method="post">
+                        @csrf
                         <textarea type="text" name="comentario" rows="10" style="resize: none"></textarea>
                         <br>
                         <br>
-                        <input type="radio" name="valoracion" value="like">
-                        <label for="like"><i class="far fa-smile" style="color: rgb(19, 160, 0)"></i></label>
-                        <input type="radio" name="valoracion" value="disike">
-                        <label for="dislike"><i class="far fa-frown" style="color: rgb(245, 0, 0)"></i></label>
+                        <label for="like"><input type="radio" id="radiolike" name="valoracion" value="1"><i id="like" class="far fa-smile" style="color: rgba(19, 160, 0, 0.322)"></i></label>                        
+                        <label for="dislike"><input type="radio" id="radiodislike" name="valoracion" value="0"><i id="dislike" class="far fa-frown" style="color: rgb(245, 0, 0,0.322)"></i></label>
                         <input type="hidden" name="id" value="{{$result->id}}">
+                        <br>
                         <br>
                         <br>
                         <input type="submit" value="Enviar opinión">
                     </form>
+                    <script>
+                        window.onload = function(){
+                            let radiolike = document.getElementById("radiolike");
+                            let radiodislike = document.getElementById("radiodislike");
+                            let like = document.getElementById("like");
+                            let dislike = document.getElementById("dislike");
+                            if (radiolike.checked) {
+                                like.style.color = "rgba(19, 160, 0)";
+                                dislike.style.color = "rgb(245, 0, 0,0.322)";
+                            }else if (radiodislike.checked){
+                                like.style.color = "rgba(19, 160, 0,0.322)";
+                                dislike.style.color = "rgb(245, 0, 0)";   
+                            }
+                            radiolike.onclick = function(){
+                                like.style.color = "rgba(19, 160, 0)";
+                                dislike.style.color = "rgb(245, 0, 0,0.322)";
+                            }
+                            radiodislike.onclick = function(){
+                                like.style.color = "rgba(19, 160, 0,0.322)";
+                                dislike.style.color = "rgb(245, 0, 0)";
+                            }
+                        }
+                        function validarValoracion(){
+                                let radiolike = document.getElementById("radiolike");
+                                let radiodislike = document.getElementById("radiodislike");
+                                if (radiolike.checked == false && radiodislike.checked == false) {
+                                    alertify.error("Tienes que elegir una valoracion");
+                                    return false;
+                                }else{
+                                    return true;
+                                }
+                            }
+                    </script>
                 </div>
 
                 <div class="one-column-res">
@@ -125,10 +163,14 @@
                         <div class="valoraciones">
                             @if ($valo->valoracion==1)
                                 <p><i class="far fa-smile" style="color: rgb(19, 160, 0)"></i> | {{$valo->nombre}}</p>
+                                @if($valo->comentario != null || $valo->comentario != "")
                                 <p><i class="far fa-comment"></i> | {{$valo->comentario}}</p>
+                                @endif
                             @else
                                 <p><i class="far fa-frown" style="color: rgb(245, 0, 0)"></i> | {{$valo->nombre}}</p>
+                                @if($valo->comentario != null || $valo->comentario != "")
                                 <p><i class="far fa-comment"></i> | {{$valo->comentario}}</p>
+                                @endif
                             @endif
                         </div>
                     @endforeach
