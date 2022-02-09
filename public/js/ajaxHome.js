@@ -55,18 +55,18 @@ function filtro() {
                 recarga += '<div class="one-column-res">';
                 for (let i = 0; i < respuesta.length; i++) {
                     let url = 'home/restaurant/' + respuesta[i].id;
-                    recarga += `<div class="box-res" onclick="window.location.href='` + url + `'">`;
+                    recarga += `<div style="cursor: pointer" class="box-res" onclick="window.location.href='` + url + `'">`;
                     recarga += `<div class="three-column-res">`;
-                    recarga += `<img width="276px" height="216px" src="storage/` + respuesta[i].imagen_general + `">`;
+                    recarga += `<img width="400px" height="250px" src="storage/` + respuesta[i].imagen_general + `">`;
                     recarga += `</div>`;
-                    recarga += '<div class="three-column-res">';
+                    recarga += '<div class="three-column-res" style="padding-left: 100px">';
                     recarga += '<p>' + respuesta[i].tipo_cocina + '</p>';
-                    recarga += '<p>' + respuesta[i].nombre + '</p>';
+                    recarga += '<p><b>' + respuesta[i].nombre + '</b></p>';
                     recarga += '<p>' + respuesta[i].direccion + '</p>';
                     recarga += '<p style="color: rgb(212, 0, 0)">Precio medio: ' + respuesta[i].precio_medio + '€</p>';
                     recarga += `</div>`;
                     recarga += '<div class="three-column-res">';
-                    if (respuesta[i].likes == null) {
+                    if (respuesta[i].likes == 0) {
                         recarga += '<p style="font-size: 20px">0 <i class="fas fa-heart"></i></p>';
                     } else {
                         recarga += '<p style="font-size: 20px">' + respuesta[i].likes + '<i class="fas fa-heart" style="color: red"></i></p>';

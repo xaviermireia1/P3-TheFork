@@ -50,9 +50,9 @@ function filtro() {
                     let urlRest = 'home_admin/restaurant_admin/' + respuesta[i].id;
                     let urlUpd = 'home-adm/update/' + respuesta[i].id;
                     let urlDel = 'home-adm/delete/' + respuesta[i].id;
-                    recarga += `<div class="box-res">`;
+                    recarga += `<div class="box-res" style="padding-left: 30px">`;
                     recarga += `<div style="cursor:pointer" class="three-column-res" onclick="window.location.href='` + urlRest + `'">`;
-                    recarga += `<img width="276px" height="216px" src="storage/` + respuesta[i].imagen_general + `">`;
+                    recarga += `<img width="400px" height="250px" src="storage/` + respuesta[i].imagen_general + `">`;
                     recarga += `</div>`;
                     recarga += `<div style="cursor:pointer" class="three-column-res" onclick="window.location.href='` + urlRest + `'">`;
                     recarga += '<p><b>' + respuesta[i].nombre + '</b></p>';

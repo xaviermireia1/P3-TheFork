@@ -22,12 +22,18 @@
     <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@100;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
     <title>TheFork</title>
+    <script src="../../js/restaurant.js"></script>
     <link rel="shortcut icon" href="../../../public/img/icono.png">
 </head>
 <body>
 
     <header>
         <div class="row" id="section1">
+            <div class="one-column-s1-l">
+                <a>
+                    <p onclick="history.back()" style="cursor: pointer">Back</p>
+                </a>
+            </div>
             <div class="one-column-s1">
                 <a href="{{ url('ayuda2')}}">
                     <p><b style="padding-right: 10px;" onclick="">AYUDA</b></p>
@@ -54,7 +60,7 @@
             @foreach ($restaurant as $result)
 
                 <div class="one-column-res">
-                    @if ($result->likes == null)
+                    @if ($result->likes == 0)
                     <p style="font-size: 25px; float:right">0 <i class="fas fa-heart"></i></p>
                     
                 @else
@@ -71,31 +77,31 @@
                 <div class="one-column-res">
                     @if ($result->imagen_general!=NULL)
                         @if(file_exists('storage/'.$result->imagen_general))
-                            <img width="300px" height="200px" src="{{asset('storage').'/'.$result->imagen_general}}">
+                            <img class="modalImg" width="300px" height="200px" src="{{asset('storage').'/'.$result->imagen_general}}">
                         @endif
                     @endif
 
                     @if ($result->imagen1!=NULL)
                         @if(file_exists('storage/'.$result->imagen1))
-                            <img width="300px" height="200px" src="{{asset('storage').'/'.$result->imagen1}}">
+                            <img class="modalImg" width="300px" height="200px" src="{{asset('storage').'/'.$result->imagen1}}">
                         @endif
                     @endif
                     
                     @if ($result->imagen2!=NULL)
                         @if(file_exists('storage/'.$result->imagen2))
-                            <img width="300px" height="200px" src="{{asset('storage').'/'.$result->imagen2}}">
+                            <img class="modalImg" width="300px" height="200px" src="{{asset('storage').'/'.$result->imagen2}}">
                         @endif
                     @endif
                     
                     @if ($result->imagen3!=NULL)
                         @if(file_exists('storage/'.$result->imagen3))
-                            <img width="300px" height="200px" src="{{asset('storage').'/'.$result->imagen3}}">
+                            <img class="modalImg" width="300px" height="200px" src="{{asset('storage').'/'.$result->imagen3}}">
                         @endif
                     @endif
                     
                     @if ($result->imagen4!=NULL)
                         @if(file_exists('storage/'.$result->imagen4))
-                            <img width="300px" height="200px" src="{{asset('storage').'/'.$result->imagen4}}">
+                            <img class="modalImg" width="300px" height="200px" src="{{asset('storage').'/'.$result->imagen4}}">
                         @endif
                     @endif
                 </div>
@@ -109,7 +115,7 @@
                     <h2 style="border-bottom: 1.8px solid rgba(0, 0, 0, 0.459)">Danos tu opinión</h2>
                     <form action="{{url("addValoracion")}}" onsubmit="return validarValoracion();" method="post">
                         @csrf
-                        <textarea type="text" name="comentario" cols="134" rows="10" style="resize: none"></textarea>
+                        <textarea type="text" name="comentario" rows="10" style="resize: none"></textarea>
                         <br>
                         <br>
                         <label for="like"><input type="radio" id="radiolike" name="valoracion" value="1"><i id="like" class="far fa-smile" style="color: rgba(19, 160, 0, 0.322)"></i></label>                        
