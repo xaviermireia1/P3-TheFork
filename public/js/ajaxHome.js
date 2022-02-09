@@ -66,7 +66,7 @@ function filtro() {
                     recarga += '<p style="color: rgb(212, 0, 0)">Precio medio: ' + respuesta[i].precio_medio + '€</p>';
                     recarga += `</div>`;
                     recarga += '<div class="three-column-res">';
-                    if (respuesta[i].likes == 0) {
+                    if (respuesta[i].likes == 0 || respuesta[i].likes == null) {
                         recarga += '<p style="font-size: 20px">0 <i class="fas fa-heart"></i></p>';
                     } else {
                         recarga += '<p style="font-size: 20px">' + respuesta[i].likes + ' <i class="fas fa-heart" style="color: red"></i></p>';
