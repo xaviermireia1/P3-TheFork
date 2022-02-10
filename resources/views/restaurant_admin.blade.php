@@ -69,11 +69,11 @@
 
         @foreach ($restaurant as $result)
         <tr>
-            <td><img src="{{asset('storage').'/'.$result->imagen_general}}" width="300px" height="250px" class="modalImg"></td>
-            <td><img src="{{asset('storage').'/'.$result->imagen1}}" width="300px" height="250px" class="modalImg"></td>
-            <td><img src="{{asset('storage').'/'.$result->imagen2}}" width="300px" height="250px" class="modalImg"></td>
-            <td><img src="{{asset('storage').'/'.$result->imagen3}}" width="300px" height="250px" class="modalImg"></td>
-            <td><img src="{{asset('storage').'/'.$result->imagen4}}" width="300px" height="250px" class="modalImg"></td>
+            <td><img src="{{asset('storage').'/'.$result->imagen_general}}" width="300px" height="250px" class="modalImg" style="padding-left: 30px"></td>
+            <td><img src="{{asset('storage').'/'.$result->imagen1}}" width="300px" height="250px" class="modalImg" style="padding-left: 30px"></td>
+            <td><img src="{{asset('storage').'/'.$result->imagen2}}" width="300px" height="250px" class="modalImg" style="padding-left: 30px"></td>
+            <td><img src="{{asset('storage').'/'.$result->imagen3}}" width="300px" height="250px" class="modalImg" style="padding-left: 30px"></td>
+            <td><img src="{{asset('storage').'/'.$result->imagen4}}" width="300px" height="250px" class="modalImg" style="padding-left: 30px"></td>
         </tr>
         <tr>
             <td>
@@ -228,8 +228,11 @@
             </td>
         </tr>
         @endforeach
+       
     </table>
-
+    <br>
+    <br>
+    <br>
     
     <footer>
         <div class="row" id="footer1">
