@@ -173,7 +173,7 @@ class RestauranteController extends Controller
                 INNER JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
                 WHERE rest.nombre like ? AND cook.tipo_cocina like ?
                 GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,val.valoracion,price.precio_medio
-                ORDER BY val.valoracion DESC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
+                ORDER BY likes DESC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
                 //Si el precio es caro
             }elseif ($request->input('precio_medio')=="caro") {
                 $restaurantes=DB::select('SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes,price.precio_medio 
@@ -184,7 +184,7 @@ class RestauranteController extends Controller
                 INNER JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
                 WHERE rest.nombre like ? AND cook.tipo_cocina like ?
                 GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,val.valoracion,price.precio_medio
-                ORDER BY val.valoracion DESC,price.precio_medio DESC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
+                ORDER BY likes DESC,price.precio_medio DESC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
                 //Si el precio es barato
             }else{
                 $restaurantes=DB::select('SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes,price.precio_medio 
@@ -195,7 +195,7 @@ class RestauranteController extends Controller
                 INNER JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
                 WHERE rest.nombre like ? AND cook.tipo_cocina like ?
                 GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,val.valoracion,price.precio_medio
-                ORDER BY val.valoracion DESC,price.precio_medio ASC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
+                ORDER BY likes DESC,price.precio_medio ASC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
             }
         //Si selecciono dislike mostramos por menos likes
         }else{
@@ -209,7 +209,7 @@ class RestauranteController extends Controller
                 INNER JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
                 WHERE rest.nombre like ? AND cook.tipo_cocina like ?
                 GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,val.valoracion,price.precio_medio
-                ORDER BY val.valoracion ASC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
+                ORDER BY likes ASC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
                 //Si el precio es caro
             }elseif ($request->input('precio_medio')=="caro") {
                 $restaurantes=DB::select('SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes,price.precio_medio 
@@ -220,7 +220,7 @@ class RestauranteController extends Controller
                 INNER JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
                 WHERE rest.nombre like ? AND cook.tipo_cocina like ?
                 GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,val.valoracion,price.precio_medio
-                ORDER BY val.valoracion ASC,price.precio_medio DESC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
+                ORDER BY likes ASC,price.precio_medio DESC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
                 //Si el precio es barato
             }else{
                 $restaurantes=DB::select('SELECT rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,sum(val.valoracion) as likes,price.precio_medio 
@@ -231,7 +231,7 @@ class RestauranteController extends Controller
                 INNER JOIN tbl_carta price ON price.id_restaurante_fk=rest.id
                 WHERE rest.nombre like ? AND cook.tipo_cocina like ?
                 GROUP BY rest.id,rest.nombre,rest.direccion,cook.tipo_cocina,img.imagen_general,val.valoracion,price.precio_medio
-                ORDER BY val.valoracion ASC,price.precio_medio ASC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
+                ORDER BY likes ASC,price.precio_medio ASC',['%'.$request->input('nombre').'%','%'.$request->input('tipo_cocina').'%']);
             }
         }
         return response()->json($restaurantes);
@@ -611,21 +611,5 @@ class RestauranteController extends Controller
         where id_restaurante_fk = $id");
         //return $valoraciones;
         return view("restaurant",compact("restaurant","valoraciones"));
-    }
-
-    public function addValoracion(Request $request){
-        $user=session("email");
-        $idres=$request->input("id");
-        $iduser=DB::select("SELECT id FROM tbl_usuario WHERE email = '$user'");
-        $iduser =$iduser[0]->id;
-        $existcommentUser=DB::select("SELECT tbl_valoracion.*,tbl_usuario.* FROM tbl_valoracion
-        INNER JOIN tbl_usuario ON tbl_valoracion.id_usuario_fk=tbl_usuario.id
-        where tbl_usuario.email='$user' AND tbl_valoracion.id_restaurante_fk = $idres");
-        if (count($existcommentUser) == 0) {
-            DB::insert("INSERT INTO tbl_valoracion (valoracion,comentario,id_restaurante_fk,id_usuario_fk) VALUES (?,?,?,?)",[$request->input("valoracion"),$request->input("comentario"),$idres,$iduser]);
-            return redirect("home/restaurant/".$idres);
-        }else{
-            return redirect("home/restaurant/".$idres);
-        }
     }
 }
