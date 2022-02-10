@@ -30,8 +30,8 @@
     <header>
         <div class="row" id="section1">
             <div class="one-column-s1-l">
-                <a>
-                    <p onclick="history.back()" style="cursor: pointer">Back</p>
+                <a href="{{ url('home')}}">
+                    <p style="cursor: pointer">Back</p>
                 </a>
             </div>
             <div class="one-column-s1">
