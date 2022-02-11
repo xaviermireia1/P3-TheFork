@@ -26,6 +26,7 @@
 
     <header>
         <div class="row" id="section1">
+
             <div class="one-column-s1">
                 <a href="{{ url('ayuda2')}}">
                     <p><b style="padding-right: 10px;" onclick="">AYUDA</b></p>
